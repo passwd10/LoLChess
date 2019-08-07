@@ -12,8 +12,10 @@ public class Round {
     public void chamReset(Deck myDeck) {
         //챔피언을 초기상태로 리셋시킴
         for(int a=0; a<myDeck.deckSize(); a++) {
-            myDeck.retCham(a).hp = myDeck.retCham(a).getMAX_HP(); //HP초기화
-            myDeck.retCham(a).mp = 0;           //MP 0으로 초기화
+            myDeck.retCham(a).setHp(myDeck.retCham(a).getMAX_HP()); //HP초기화
+            myDeck.retCham(a).setMp(0);           //MP 0으로 초기화
+            myDeck.retCham(a).setArmor(myDeck.retCham(a).getFIRST_ARMOR()); //방어력 초기화
+            myDeck.retCham(a).setPower(myDeck.retCham(a).getFIRST_POWER()); //공격력 초기화
         }
 
     }
@@ -26,9 +28,9 @@ public class Round {
         computer[1] = champion2;
         computer[2] = champion3;
 
-        computer[0].mp = 0;
-        computer[1].mp = 0;
-        computer[2].mp = 0;
+        computer[0].setMp(0);
+        computer[1].setMp(0);
+        computer[2].setMp(0);
 
         System.out.println(i + " 라운드를 시작하겠습니다.");
         System.out.println(computer[0].getName() + ", " + computer[1].getName() + ", " + computer[2].getName() + "가 출현합니다.\n");
@@ -39,6 +41,9 @@ public class Round {
         int bRest = 0; // 처치한 봇 챔피언
 
         //long start = System.currentTimeMillis(); //시작시간
+        for(int a=0; a< myDeck.deckSize(); a++) {
+            myDeck.retCham(a).classSynergy(myDeck);
+        }
 
         while (cnt == 20 || gameOver == 0) {
             cnt++;
@@ -52,13 +57,19 @@ public class Round {
 
             for (int a = 0; a < myDeck.deckSize(); a++) {
 
-                if (myDeck.retCham(a).hp <= 0) {
+                if (myDeck.retCham(a).getHp() == 0) {
                     System.out.println("[ Down ] " + myDeck.retCham(a).getName());
                 } else {
-                    myDeck.retCham(a).attack(computer[bRest]); //공격함
+
+                    if( myDeck.retCham(a).getMp() ==  myDeck.retCham(a).getMAX_MP()) {
+                        myDeck.retCham(a).useSkill(computer[bRest]);
+                    }
+                    else {
+                        myDeck.retCham(a).attack(computer[bRest]); //공격함
+                    }
                     computer[bRest].beAttacked(myDeck.retCham(a)); //전투중 상태출력
 
-                    if (computer[bRest].hp <= 0) {
+                    if (computer[bRest].getHp() == 0) {
                         //공격을 받은 봇이 죽을때
                         bRest++;
                         if (bRest >= 3) { //챔피언을 다 처치함'
@@ -70,14 +81,18 @@ public class Round {
             }
 
             for (int b = 0; b < 3; b++) {
-                if (computer[b].hp <= 0) {
+                if (computer[b].getHp() == 0) {
                     //공격하는 봇이 죽으면
                     System.out.println("[ Down ] " + computer[b].getName());
                 } else {
-                    computer[b].attack(myDeck.retCham(mRest)); //공격함
+                    if( computer[b].getMp() ==  computer[b].getMAX_MP()) {
+                        computer[b].useSkill(myDeck.retCham(mRest));
+                    } else {
+                        computer[b].attack(myDeck.retCham(mRest)); //공격함
+                    }
                     myDeck.retCham(mRest).beAttacked(computer[b]); //전투중 상태출력
 
-                    if (myDeck.retCham(mRest).hp <= 0) {
+                    if (myDeck.retCham(mRest).getHp() == 0) {
                         //공격받은 플레이어가 죽으면
                         mRest++;
                         if (mRest >= myDeck.deckSize()) {
@@ -88,11 +103,12 @@ public class Round {
                     }
                 }
             }
+            System.out.println("=====================================================");
         }
 
         for (int a = 0; a < 3; a++) { //컴터 초기화
-            computer[a].hp = computer[a].getMAX_HP();
-            computer[a].mp = computer[a].getMAX_MP();
+            computer[a].setHp(computer[a].getMAX_HP());
+            computer[a].setMp(computer[a].getMAX_MP());
         }
 
         if (cnt == 20) {
@@ -109,7 +125,6 @@ public class Round {
 
         if (mRest == myDeck.deckSize()) {
             System.out.println("\n▶▶▶▶▶▶ You Lose ◀◀◀◀◀◀");
-            System.out.println("▶▶▶▶▶▶ Game Over ◀◀◀◀◀◀");
             return 0;
         }
 
