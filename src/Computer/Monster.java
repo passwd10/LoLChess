@@ -1,4 +1,4 @@
-package Monster;
+package Computer;
 
 public class Monster {
 
@@ -15,4 +15,10 @@ public class Monster {
         this.attackSpeed = attackSpeed;
         this.armor = armor;
     }
+
+    public double getPower() { return this.power; }
+    public String getName() { return this.name; }
+    public double getHp() { return this.hp; }
+    public double getAttackSpeed() {return this.attackSpeed; }
+    public int getArmor() { return this.armor; }
 }

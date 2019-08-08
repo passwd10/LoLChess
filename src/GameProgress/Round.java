@@ -1,5 +1,6 @@
 package GameProgress;
 
+import Computer.ComDeck;
 import MyInfo.*;
 import Champion.*;
 
@@ -20,24 +21,24 @@ public class Round {
 
     }
 
-    public int startStage(int i, Deck myDeck, Gold myGold, Champion champion1, Champion champion2, Champion champion3) {
+    public int startStage(int roundNum, Deck myDeck, Gold myGold, ComDeck comDeck) {
         //스테이지 시작 챔피언 봇이 나올때
 
-        Champion[] computer = new Champion[3];
-        computer[0] = champion1;
-        computer[1] = champion2;
-        computer[2] = champion3;
+        Champion[] computer = new Champion[comDeck.deckSize()];
+        for(int i=0; i<comDeck.deckSize(); i++) {
+            computer[i] = comDeck.retCham(i);
+            computer[i].setMp(0); //마나 초기화
+        }
 
-        computer[0].setMp(0);
-        computer[1].setMp(0);
-        computer[2].setMp(0);
-
-        System.out.println(i + " 라운드를 시작하겠습니다.");
-        System.out.println(computer[0].getName() + ", " + computer[1].getName() + ", " + computer[2].getName() + "가 출현합니다.\n");
+        System.out.println(roundNum + " 라운드를 시작하겠습니다.");
+        for(int i=0; i<comDeck.deckSize(); i++) {
+            System.out.print(computer[i].getName()+ " ");
+        }
+        System.out.println("가 출현합니다.\n");
 
         int cnt = 0;
         int gameOver = 0; //게임이 끝나면 1로 바꿔줌
-        int mRest = 0; //처치당한 봇 챔피언
+        int mRest = 0; //처치당한 내 챔피언
         int bRest = 0; // 처치한 봇 챔피언
 
         //long start = System.currentTimeMillis(); //시작시간
@@ -72,7 +73,7 @@ public class Round {
                     if (computer[bRest].getHp() == 0) {
                         //공격을 받은 봇이 죽을때
                         bRest++;
-                        if (bRest >= 3) { //챔피언을 다 처치함'
+                        if (bRest >= comDeck.deckSize()) { //챔피언을 다 처치함'
                             gameOver = 1;
                             break;
                         }
@@ -80,12 +81,13 @@ public class Round {
                 }
             }
 
-            for (int b = 0; b < 3; b++) {
+            for (int b = 0; b < comDeck.deckSize(); b++) {
                 if (computer[b].getHp() == 0) {
                     //공격하는 봇이 죽으면
                     System.out.println("[ Down ] " + computer[b].getName());
                 } else {
-                    if( computer[b].getMp() ==  computer[b].getMAX_MP()) {
+                    if( computer[b].getMp() != 0 && computer[b].getMp() ==  computer[b].getMAX_MP()) {
+                        //마나게이지가 다 차면 스킬사용
                         computer[b].useSkill(myDeck.retCham(mRest));
                     } else {
                         computer[b].attack(myDeck.retCham(mRest)); //공격함
@@ -106,26 +108,23 @@ public class Round {
             System.out.println("=====================================================");
         }
 
-        for (int a = 0; a < 3; a++) { //컴터 초기화
+        for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 초기화
             computer[a].setHp(computer[a].getMAX_HP());
             computer[a].setMp(computer[a].getMAX_MP());
         }
 
+        comDeck.clearDeck(); //컴퓨터 덱 초기화
+
         if (cnt == 20) {
-            System.out.println("\n▶▶▶▶▶▶ You Draw ◀◀◀◀◀◀");
-            myGold.gold += 7; //보상금
-            return 2;
+            return 2; //무승부
         }
 
         if (bRest == 3) {
-            System.out.println("\n▶▶▶▶▶▶ You Win ◀◀◀◀◀◀");
-            myGold.gold += 10; //보상금
-            return 1;
+            return 1; //승리
         }
 
         if (mRest == myDeck.deckSize()) {
-            System.out.println("\n▶▶▶▶▶▶ You Lose ◀◀◀◀◀◀");
-            return 0;
+            return 0; //패배
         }
 
         return 1;

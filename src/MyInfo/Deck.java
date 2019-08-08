@@ -43,9 +43,11 @@ public class Deck extends MyInfo {
         return 1;
     }
 
-    public void setMyDeck(Que myQue, Deck myDeck, Gold myGold) {
+    public void setMyDeck(Level myLevel,Que myQue, Deck myDeck, Gold myGold) {
 
         while(true) {
+            int canInput = myDeck.deckSize();
+
             System.out.println("-------------------------------------");
             System.out.println("\t\t덱 설정 페이지 입니다");
             System.out.println("-------------------------------------");
@@ -60,15 +62,18 @@ public class Deck extends MyInfo {
                 if(myQue.output()==1) { // 내 대기열 출력
                     System.out.println("덱에 넣을 챔피언을 선택해주세요(번호입력/ 뒤로가기는 0)");
                     int aa = sc.nextInt();
-                    if(aa==0) {
+                    if (aa == 0) {
 
-                    }
-                    else {
-                        if (isDeck(myQue.returnQue(aa)) == 0) {
-                            System.out.println("덱에 챔피언을 중복해서 넣을 수 없습니다.");
+                    } else {
+                        if (canInput == myLevel.getMyLevel()) {
+                            System.out.println("덱에는 " + myLevel.getMyLevel() + "개의 챔피언까지만 넣을 수 있습니다.");
                         } else {
-                            myDeck.addDeck(myQue.deletQue(aa));
-                            //해당 챔피언 대기열에서 삭제, 덱에 추가
+                            if (isDeck(myQue.returnQue(aa)) == 0) {
+                                System.out.println("덱에 챔피언을 중복해서 넣을 수 없습니다.");
+                            } else {
+                                myDeck.addDeck(myQue.deletQue(aa));
+                                //해당 챔피언 대기열에서 삭제, 덱에 추가
+                            }
                         }
                     }
                 }

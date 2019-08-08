@@ -3,6 +3,7 @@ package GameProgress;
 import Champion.*;
 
 import MyInfo.Gold;
+import MyInfo.Level;
 import MyInfo.Que;
 
 import java.util.Random;
@@ -17,7 +18,7 @@ public class Shop {
         System.out.println((i + 1) + ". " + chamList[i].getName() + "(" + chamList[i].getcClass() + ")\t"+ "(" + chamList[i].getTribe() + ")\t" + chamList[i].getGold() + "원");
     }
 
-    public void showShop(Champion[] champions, Champion[] chamList, Que myQue, Gold myGold) {
+    public void showShop(Champion[] champions, Champion[] chamList, Que myQue, Gold myGold, Level myLevel) {
         Random random = new Random();
 
         int[] purchased = new int[5]; //이미 구매한 챔피언들을 걸러내기 위한 표시
@@ -31,7 +32,13 @@ public class Shop {
             for (int i = 0; i < 5; i++) {
                 showAvailable(chamList, i); //무작위 챔피언 5개 출력
             }
-            System.out.println("6. 상점 리셋\t\t\t2원");
+            System.out.println("6. 상점 새로고침\t\t\t2원");
+            System.out.println("7. 경험치(4XP) \t\t\t\t4원");
+            System.out.println("-------------------------------------");
+            System.out.println("\t\t   플레이어 정보");
+            myLevel.output(); //내 현재 레벨 출력
+            System.out.println("   경험치 : " + myLevel.getMyXp()+" XP");
+            myGold.plusGold(); // 이자 계산
             myGold.output(); //내 현재 골드를 보여줌
             System.out.println("구매할 챔피언 번호를 입력하세요(종료 0)");
             int num = sc.nextInt();
@@ -62,6 +69,15 @@ public class Shop {
                     System.out.println("골드가 부족합니다.");
                 }
 
+            } else if(num == 7) {
+                //내 경험치 4추가
+                if(myGold.gold < 4) {
+                    System.out.println("골드가 부족합니다.");
+                } else {
+                    myGold.gold -= 4;
+                    myLevel.setMyXp(myLevel.getMyXp() + 4); //경험치 증가
+                    myLevel.isMyLevel(myLevel.getMyXp());
+                }
             }
             else if (purchased[num - 1] == 1) {
                 System.out.println("이미 구매한 챔피언입니다.");
