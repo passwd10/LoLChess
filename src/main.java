@@ -3,6 +3,7 @@ import Computer.*;
 import GameProgress.GameResult;
 import GameProgress.Round;
 import GameProgress.Shop;
+import GameProgress.Upgrade;
 import MyInfo.*;
 
 import java.util.Random;
@@ -24,6 +25,7 @@ public class main {
         ComDeck comDeck = new ComDeck();
         GameResult gameResult = new GameResult();
         Life life = new Life();
+        Upgrade upgrade = new Upgrade(); //등급 업그레이드
 
         champions[0] = new Akali("아칼리", "암살자", "닌자", 4, 640, 25, 70, 2, 20, 4, 1);
         champions[1] = new Zed("제드", "암살자", "닌자", 2, 500, 75, 60, 0.65, 25, 2, 1);
@@ -57,59 +59,68 @@ public class main {
 
         Random random = new Random();
 
-        int gameRound = 0;
+        int gameRound = 1;
         int roundResult; //각 라운드의 결과
 
         Level myLevel = new Level(1); //1레벨부터 시작
         Gold myGold = new Gold(100); //내 골드
         life.setLife(100); //생명력은 100으로 시작
 
+        shop.randomCham(chamList,champions); //챔피언 무작위 호출
+        int[] purchased = new int[5]; //이미 구매한 챔피언들을 걸러내기 위한 표시
+
         while (life.getLife() > 0) {
-            gameRound++;
+
             roundResult = 0; //초기화
+            System.out.println("┌──────────────────┐");
+            System.out.println("│\t\t\t\t"+gameRound+" 라운드\t\t\t  │");
+            System.out.println("├──────────────────┤");
+            System.out.println("│\t\t\t\t\t\t\t\t\t  │");
+            System.out.println("│  1. 챔피언 상점                    │");
+            System.out.println("│  2. 대기열 설정                    │");
+            System.out.println("│  3. 전투덱 설정                    │");
+            System.out.println("│  4. 나의 정보                      │");
+            System.out.println("│  0. 전투 시작                      │");
+            System.out.println("│\t\t\t\t\t\t\t\t\t  │");
+            System.out.println("└──────────────────┘");
+            System.out.print(" 숫자입력 >>  ");
 
-            for (int i = 0; i < 5; i++) { //무작위로 챔피언을 뽑음
-                chamList[i] = champions[random.nextInt(12)]; //0~11까지 임의의 숫자 랜덤입력
-
-                for (int a = 0; a < i; a++) { //챔피언 중복검사
-                    if (chamList[a] == chamList[i]) {
-                        i--;
-                        break;
-                    }
-                }
-            }
-
-            System.out.println("1. 챔피언 상점");
-            System.out.println("2. 전투덱 설정");
-            System.out.println("2. 대기열 설정");
-            System.out.println("4. 나의 정보");
             int select = sc.nextInt();
 
-            if(select == 1) {
-                shop.showShop(champions, chamList, myQue, myGold, myLevel);
-            } else if(select == 2) {
+            if (select == 1) {
+                shop.showShop(champions, chamList, myQue, myGold, myLevel,purchased);
+                myQue.output(); //내 대기열 출력
+                myGold.output(); //내 골드 출력
+                upgrade.upgradCham(myDeck,myQue);
+            } else if (select == 2) {
+                myQue.setMyQue(myLevel, myQue, myDeck, myGold);
+            } else if (select == 3) {
+                myDeck.setMyDeck(myQue, myDeck);
+            } else if (select == 4) {
+                System.out.println("┌──────────────────┐");
+                myLevel.output();
+                myGold.output();
+                life.output();
+                System.out.println("└──────────────────┘\n");
+                myQue.output();
+                myDeck.output();
+            } else if (select == 0) { //전투 시작
 
-            } else if(select == 2) {
+                round.forcedInsert(myDeck,myQue,myLevel); //챔피언이 모자랄시 강제 삽입
 
-            } else if(select == 2) {
+                round.chamReset(myDeck); //내 챔피언 초기화
+
+                comDeck.chooseDeck(gameRound); //컴퓨터 덱 설정
+                roundResult = round.startStage(gameRound, myDeck, comDeck); //내덱,내돈, 3라운드, 챔피언3개
+                gameResult.gameResult(roundResult, myGold, life, myLevel); //라운드 결과 출력
+                gameRound++; //게임라운드 up
 
             } else {
                 System.out.println("다시 입력해주세요");
             }
 
-            myQue.output(); //내 대기열 출력
 
-            myGold.output(); //내 골드 출력
-
-            myDeck.setMyDeck(myLevel, myQue, myDeck, myGold);
-
-            myDeck.output(); //내 덱 출력
-
-            round.chamReset(myDeck); //내 챔피언 초기화
-
-            comDeck.chooseDeck(gameRound); //컴퓨터 덱 설정
-            roundResult = round.startStage(gameRound, myDeck, myGold, comDeck); //내덱,내돈, 3라운드, 챔피언3개
-            gameResult.gameResult(roundResult, myGold, life, myLevel); //라운드 결과 출력
+            //myDeck.output(); //내 덱 출력
 
         }
     }

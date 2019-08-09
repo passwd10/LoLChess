@@ -31,7 +31,6 @@ public class Gold extends MyInfo {
     @Override
     public int output() {
         System.out.println("   골드 : "+gold + "원 (이자 "+ plusGold + "원)");
-        System.out.println("-------------------------------------");
         return 1;
     }
 }

@@ -28,10 +28,13 @@ public class GameResult {
         myGold.gold += myGold.getPlusGold();
 
 
-        System.out.println("-------------------------------------");
-        System.out.println("\t\t\t   상 태");
-        System.out.println("  XP +2");
-        System.out.println("  골드 +"+(5+myGold.getPlusGold()));
+        System.out.println("┌──────────────────┐");
+        System.out.println("│            상태 및 보상            │");
+        System.out.println("└──────────────────┘");
+        System.out.println("   XP +2");
+        System.out.println("   골드 +"+(5+myGold.getPlusGold()));
         life.output();
+        System.out.println("────────────────────");
+
     }
 }

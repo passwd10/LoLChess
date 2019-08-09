@@ -21,7 +21,29 @@ public class Round {
 
     }
 
-    public int startStage(int roundNum, Deck myDeck, Gold myGold, ComDeck comDeck) {
+    public void forcedInsert(Deck myDeck,Que myQue, Level myLevel) {
+        //챔피언이 덱에 없을시 강제로 챔피언 삽입
+
+        int interval = 0; //몇개의 챔피언을 더 넣어야하나
+
+        if (myDeck.deckSize() < myLevel.getMyLevel()) {
+            //내 레벨보다 적은수의 챔피언이 있으면 강제 삽입
+            interval = myLevel.getMyLevel() - myDeck.deckSize();
+
+            if (myQue.queSize() < interval) { //넣어야될 챔피언에비해 대기열이 작을경우
+                for (int i = 0; i < myQue.queSize(); i++) {
+                    myDeck.addDeck(myQue.returnQue(i));
+                }
+            } else {
+                for (int i = 0; i < interval; i++) {
+                    myDeck.addDeck(myQue.returnQue(i)); //강제 삽입
+                }
+            }
+
+        }
+    }
+
+    public int startStage(int roundNum, Deck myDeck, ComDeck comDeck) {
         //스테이지 시작 챔피언 봇이 나올때
 
         Champion[] computer = new Champion[comDeck.deckSize()];
