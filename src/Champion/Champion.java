@@ -89,6 +89,5 @@ public abstract class Champion implements BeAttackable, Attackable, SkillActive,
 
     public double getAttackSpeed() { return this.attackSpeed; }
 
-    public String setName(String name) { return this.name = name; }
-
+    public int getTier() { return this.tier; }
 }

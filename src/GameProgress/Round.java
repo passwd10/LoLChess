@@ -6,6 +6,7 @@ import Champion.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Round {
@@ -28,15 +29,81 @@ public class Round {
 
         if (myDeck.deckSize() < myLevel.getMyLevel()) {
             //내 레벨보다 적은수의 챔피언이 있으면 강제 삽입
-            interval = myLevel.getMyLevel() - myDeck.deckSize();
+            interval = myLevel.getMyLevel() - myDeck.deckSize(); //넣어야할 챔피언의 수
 
-            if (myQue.queSize() < interval) { //넣어야될 챔피언에비해 대기열이 작을경우
-                for (int i = 0; i < myQue.queSize(); i++) {
-                    myDeck.addDeck(myQue.returnQue(i));
+            ArrayList<Champion> insertCham = new ArrayList<Champion>(); //넣을 챔피언의 배열
+
+            int isInput; //넣을 수 있냐?
+
+            for(int i=0; i<myQue.queSize(); i++) {
+                insertCham.add(myQue.returnQue(i)); // 다 넣음
+                myQue.deletQue(i);
+                i--;
+            }
+
+            for (int i = 0; i < insertCham.size(); i++) {
+                //insertCham 안에서의 중복값 확인하기
+                for (int a = 0; a < i; a++) {
+                    if (insertCham.get(a) == insertCham.get(i)) {
+                        myQue.addQue((insertCham.get(i)));
+                        insertCham.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+
+            if (insertCham.size() < interval) { //넣어야될 챔피언에비해 대기열이 작을경우
+                for (int i = 0; i < insertCham.size(); i++) {
+                    isInput = 1; //못넣음
+                    for (int a = 0; a < myDeck.deckSize(); a++) {
+                        if (myDeck.retCham(a) == insertCham.get(i)) {
+                            isInput = 0;
+                            myQue.addQue(insertCham.get(i)); //삭제한 챔피언을 다시 대기열로
+                            insertCham.remove(i);
+                            i--;
+                            break;
+                        }
+                    }
+
+                    if (isInput == 1) {
+                        myDeck.addDeck(insertCham.get(i)); //강제 삽입
+                        insertCham.remove(i); //삭제
+                        i--;
+                    }
+
+                    if (insertCham.size() == 0) {
+                        break; //다 넣었으면 종료
+                    }
                 }
             } else {
-                for (int i = 0; i < interval; i++) {
-                    myDeck.addDeck(myQue.returnQue(i)); //강제 삽입
+                int cnt = 0;
+                for (int i = 0; i < insertCham.size(); i++) {
+                    isInput = 1; //넣음
+                    for (int a = 0; a < myDeck.deckSize(); a++) {
+                        if (myDeck.retCham(a) == insertCham.get(i)) {
+                            isInput = 0;
+                            myQue.addQue(insertCham.get(i)); //삭제한 챔피언을 다시 대기열로
+                            insertCham.remove(i);
+                            i--;
+                            break;
+                        }
+                    }
+
+                    if (isInput == 1) {
+                        myDeck.addDeck(insertCham.get(i)); //강제 삽입
+                        insertCham.remove(i); //삭제
+                        i--;
+                        cnt++;
+                    }
+
+                    if (insertCham.size() == 0 || cnt == interval) {
+                        for(int c=0; c<insertCham.size(); c++) { //insertCham에 있는 챔피언들 다시 대기열로
+                            myQue.addQue(insertCham.get(c));
+                        }
+                        break; //다 넣었으면 종료
+                    }
+
                 }
             }
 
@@ -54,7 +121,11 @@ public class Round {
 
         System.out.println(roundNum + " 라운드를 시작하겠습니다.");
         for(int i=0; i<comDeck.deckSize(); i++) {
-            System.out.print(computer[i].getName()+ " ");
+            if(computer[i].getGrade() == 0) {
+                System.out.print(computer[i].getName() + " ");
+            } else {
+                System.out.print(computer[i].getName() + "(" + computer[i].getGrade() + "성) ");
+            }
         }
         System.out.println("가 출현합니다.\n");
 

@@ -21,6 +21,7 @@ public class GameResult {
             //남은 상대챔피언 당 2씩 깎임
         }
 
+
         level.setMyXp(level.getMyXp() + 2); //경험치 2 증가
         level.isMyLevel(level.getMyXp());
         myGold.plusGold(); //이자계산해서 줌
@@ -35,6 +36,20 @@ public class GameResult {
         System.out.println("   골드 +"+(5+myGold.getPlusGold()));
         life.output();
         System.out.println("────────────────────");
+
+    }
+
+    public void totalResult(Gold myGold, Life life, Level level) {
+
+            System.out.println("┌──────────────────┐");
+            System.out.println("│              최종 결과             │");
+            System.out.println("└──────────────────┘");
+            System.out.println("   레벨 : " + level.getMyLevel());
+            System.out.println("   골드 : " + myGold.gold);
+            life.output();
+            System.out.println("────────────────────");
+            System.out.println("■□■□■ 게임을 종료합니다 □■□■□");
+
 
     }
 }

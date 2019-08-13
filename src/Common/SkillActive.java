@@ -1,6 +1,6 @@
 package Common;
 
-import Champion.Champion;
+import Champion.*;
 
 public interface SkillActive {
     //스킬 발동가능한 챔피언

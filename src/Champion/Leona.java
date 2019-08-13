@@ -1,19 +1,18 @@
-package Computer;
+package Champion;
 
-import Champion.Champion;
 import Common.Attackable;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
-public class Dragon extends Champion {
+public class Leona extends Champion {
 
-    public Dragon(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
+    public Leona(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
         super(name, chamClass, tribe, tier, hp, mp, power, attackSpeed, armor, gold, grade);
     }
 
     @Override
     public void attack(BeAttackable target) {
-
+        
     }
 
     @Override

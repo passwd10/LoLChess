@@ -105,10 +105,22 @@ public class Que extends MyInfo {
             return 0;
         }
         else {
+            int stringLen;
             for (int i = 0; i < myQue.size(); i++) {
-                System.out.println("   "+(i + 1) + ". " + myQue.get(i).getName() + "(" + myQue.get(i).getcClass() + ")\t" + myQue.get(i).getGrade() + "성\t\t" + myQue.get(i).getGold() + "원");
+                stringLen = myQue.get(i).getName().length() + myQue.get(i).getcClass().length() + myQue.get(i).getTribe().length();
+
+                if(stringLen==5 || stringLen == 6 || stringLen == 7 ) {
+                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t\t\t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
+                } else if(stringLen == 8 || stringLen == 9) {
+                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t\t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
+                } else if(stringLen == 10 || stringLen == 11) {
+                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
+                } else {
+                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "]" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
+                }
+
             }
-            System.out.println("");
+            System.out.println();
             return 1;
         }
     }
