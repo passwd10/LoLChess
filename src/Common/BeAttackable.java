@@ -11,5 +11,4 @@ public interface BeAttackable {
     public double getPower();
     public int getMAX_MP();
     public double getMAX_HP();
-    //public double setHp();
 }

@@ -66,14 +66,13 @@ public class Braum extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setArmor(getArmor()*1.7);
+                setArmor(getArmor()*1.7);
             } else if (getGrade() == 2) { //2성일때
-                champion.setArmor(getArmor()*1.8);
+               setArmor(getArmor()*1.8);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setArmor(getArmor()*1.9);
+                setArmor(getArmor()*1.9);
             }
             setMp(0);
-            champion.setMp(champion.getMp() + 20);
 
             System.out.print(getName());
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태

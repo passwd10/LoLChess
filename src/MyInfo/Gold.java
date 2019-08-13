@@ -11,7 +11,9 @@ public class Gold extends MyInfo {
 
     public void plusGold() {
         //이자 계산해서 지급
-        if (gold >= 10 && gold < 20) {
+        if (gold >= 0 && gold < 10) {
+            plusGold = 0;
+        } else if (gold >= 10 && gold < 20) {
             plusGold = 1;
         } else if (gold >= 20 && gold < 30) {
             plusGold = 2;

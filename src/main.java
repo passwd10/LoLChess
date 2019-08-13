@@ -91,8 +91,8 @@ public class main {
         gameStart.startGame(); //게임 튜토리얼
 
         Level myLevel = new Level(1); //1레벨부터 시작
-        Gold myGold = new Gold(100); //내 골드
-        life.setLife(100); //생명력은 100으로 시작
+        Gold myGold = new Gold(5); //내 골드
+        life.setLife(10); //생명력은 10으로 시작
 
         shop.randomCham(chamList,champions,myLevel); //챔피언 무작위 호출
         int[] purchased = new int[5]; //이미 구매한 챔피언들을 걸러내기 위한 표시
@@ -143,6 +143,7 @@ public class main {
                 gameResult.gameResult(roundResult, myGold, life, myLevel); //라운드 결과 출력
                 if(gameRound == 10) {
                     gameResult.totalResult(myGold,life,myLevel);
+                    break; //게임 종료
                 }
                 gameRound++; //게임라운드 up
                 shop.randomCham(chamList,champions,myLevel); //챔피언 무작위 호출
@@ -153,9 +154,7 @@ public class main {
                 System.out.println("다시 입력해주세요");
             }
 
-
             //myDeck.output(); //내 덱 출력
-
         }
     }
 }

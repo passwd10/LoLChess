@@ -48,8 +48,12 @@ public class GameResult {
             System.out.println("   골드 : " + myGold.gold);
             life.output();
             System.out.println("────────────────────");
-            System.out.println("■□■□■ 게임을 종료합니다 □■□■□");
-
+            if(life.getLife() > 0) {
+                //생명력이 0 이상이면 승급
+                System.out.println("■□■□■□■ SILVER 승급 □■□■□■□");
+            } else {
+                System.out.println("■□■□■□■ 승급 실패 □■□■□■□");
+            }
 
     }
 }

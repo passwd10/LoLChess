@@ -66,11 +66,11 @@ public class Draven extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setPower(getPower()*1.5);
+                champion.setHp(champion.getHp() - getPower()*1.5);
             } else if (getGrade() == 2) { //2성일때
-                champion.setPower(getPower()*2);
+                champion.setHp(champion.getHp() - getPower()*2);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setPower(getPower()*2.5);
+                champion.setHp(champion.getHp() - getPower()*2.5);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);

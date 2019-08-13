@@ -66,19 +66,19 @@ public class Graves extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-200);
+                champion.setHp(champion.getHp()-getPower()*1.05);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-375);
+                champion.setHp(champion.getHp()-getPower()*1.1);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-550);
+                champion.setHp(champion.getHp()-getPower()*1.15);
             }
             setMp(0);
-            champion.setMp(champion.getMp() + 20);
+            champion.setMp(champion.getMp() + 10);
 
             System.out.print(getName());
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
             System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 파멸의 불덩이 "); //150, 275, 400
+            System.out.println("[Skill] 산탄 사격 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
         } else {
 

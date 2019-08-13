@@ -66,11 +66,14 @@ public class Elise extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()+getPower()*0.6);
+                champion.setHp(champion.getHp()-getPower()*0.6);
+                setHp(getHp()+getPower()*0.6);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()+getPower()*0.9);
+                champion.setHp(champion.getHp()-getPower()*0.9);
+                setHp(getHp()+getPower()*0.9);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()+getPower()*1.2);
+                champion.setHp(champion.getHp()-getPower()*1.2);
+                setHp(getHp()+getPower()*1.2);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);

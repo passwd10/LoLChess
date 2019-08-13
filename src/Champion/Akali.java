@@ -65,11 +65,11 @@ public class Akali extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-150);
+                champion.setHp(champion.getHp()-150);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-275);
+                champion.setHp(champion.getHp()-275);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-400);
+                champion.setHp(champion.getHp()-400);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);

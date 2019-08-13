@@ -63,8 +63,8 @@ public class Bbobbi extends Champion {
         //피해량 : 300 / 500 / 700
         //기절 지속시간 : 2 / 3 / 4
         //대상 수 : 1 / 2 / 3
-        if (getGrade() == 1) { //1성일때
-            if (getMp() >= getMAX_MP()) {
+        if (getMp() >= getMAX_MP()) {
+            if (getGrade() == 1) { //1성일때
                 champion.setHp(champion.getHp() - 300);
                 champion.setMp(champion.getMp() + 20);
 

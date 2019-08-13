@@ -66,11 +66,11 @@ public class Brand extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-200);
+                champion.setHp(champion.getHp()-200);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-375);
+                champion.setHp(champion.getHp()-375);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-550);
+                champion.setHp(champion.getHp()-550);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);

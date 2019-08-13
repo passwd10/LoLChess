@@ -68,11 +68,11 @@ public class Bolibear extends Champion {
     public void useSkill(Champion champion1, Champion champion2) {
         if (getGrade() == 1) { //1성일때
             if (getMp() >= getMAX_MP()) {
-                champion1.setHp(getHp() -getPower() * 0.8);
-                champion2.setHp(getHp() -getPower() * 0.8);
+                champion1.setHp(champion1.getHp() -getPower() * 0.8);
+                champion2.setHp(champion2.getHp() -getPower() * 0.8);
 
-                champion1.setMp(getMp() + 20);
-                champion2.setMp(getMp() + 20);
+                champion1.setMp(champion1.getMp() + 20);
+                champion2.setMp(champion2.getMp() + 20);
 
                 setMp(0);
 

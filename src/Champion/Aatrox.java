@@ -66,11 +66,11 @@ public class Aatrox extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-250);
+                champion.setHp(champion.getHp()-250);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-600);
+                champion.setHp(champion.getHp()-600);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-950);
+                champion.setHp(champion.getHp()-950);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);

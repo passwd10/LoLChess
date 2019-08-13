@@ -65,17 +65,17 @@ public class Darius extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-150);
+                champion.setHp(champion.getHp()-150);
                 setHp(getHp() + 100);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-200);
+                champion.setHp(champion.getHp()-200);
                 setHp(getHp() + 150);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-250);
+                champion.setHp(champion.getHp()-250);
                 setHp(getHp() + 200);
             }
             setMp(0);
-            champion.setHp(getHp() + 20);
+            champion.setHp(champion.getHp() + 20);
 
             System.out.print(getName());
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태

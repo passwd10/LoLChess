@@ -23,7 +23,7 @@ public class GameStart {
         System.out.println("롤토체스의 규칙을 이해하고 계신가요?(Y/N)");
         char ans = sc.next().charAt(0);
         if (ans == 'Y' || ans == 'y') {
-            System.out.println("바로 게임을 시작하겠습니다.");
+            System.out.println(" ■□■□■□ BRONZE 난이도 ■□■□■□");
         } else {
             System.out.println("라운드 시작 화면입니다.");
             System.out.println("┌──────────────────┐\n" +
@@ -92,7 +92,8 @@ public class GameStart {
 
             System.out.println(nickname + "님께서 \'3개\'의 서로 같은 챔피언을 보유하면 챔피언의 \'등급\'이 올라갑니다");
 
-            System.out.println("\n규칙설명이 끝났습니다.\n게임을 시작하겠습니다.");
+            System.out.println("\n규칙설명이 끝났습니다");
+            System.out.println(" ■□■□■□ BRONZE 난이도 ■□■□■□");
 
         }
 

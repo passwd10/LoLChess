@@ -66,11 +66,11 @@ public class Ashe extends Champion {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(getHp()-200);
+                champion.setHp(champion.getHp()-200);
             } else if (getGrade() == 2) { //2성일때
-                champion.setHp(getHp()-400);
+                champion.setHp(champion.getHp()-400);
             } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(getHp()-600);
+                champion.setHp(champion.getHp()-600);
             }
             setMp(0);
             champion.setMp(champion.getMp() + 20);
