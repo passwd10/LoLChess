@@ -3,6 +3,7 @@ package MyInfo;
 import Champion.*;
 import java.util.ArrayList;
 import java.util.Scanner;
+import Output.*;
 
 public class Que extends MyInfo {
 
@@ -41,60 +42,82 @@ public class Que extends MyInfo {
 
         while(true) {
             int canInput = myDeck.deckSize();
-            System.out.println("┌──────────────────┐");
-            System.out.println("│             대기열 설정            │");
-            System.out.println("└──────────────────┘");
-            System.out.println("   1. 챔피언을 덱으로 이동");
-            System.out.println("   2. 챔피언 판매");
-            System.out.println("   0. 뒤로가기");
-            int su = sc.nextInt();
-            if (su == 0) {
+
+            QueOutput queOutput = new QueOutput();
+
+            queOutput.outputQueSetting(); //대기열 설정 출력
+
+            int queInput = sc.nextInt();
+            if (queInput == 0) {
                 break;
-            } else if (su == 1) {
-                if(myQue.output()==1) { // 내 대기열 출력
-                    System.out.println("덱에 넣을 챔피언을 선택해주세요(번호입력/ 뒤로가기는 0)");
-                    int aa = sc.nextInt();
-                    if (aa == 0) {
-
-                    } else {
-                        if (canInput == myLevel.getMyLevel()) {
-                            System.out.println("덱에는 " + myLevel.getMyLevel() + "개의 챔피언까지만 넣을 수 있습니다.");
-                        } else {
-                            if (myDeck.isDeck(myQue.returnQue(aa-1)) == 0) {
-                                System.out.println("덱에 챔피언을 중복해서 넣을 수 없습니다.");
-                            } else {
-                                myDeck.addDeck(myQue.deletQue(aa-1));
-                                //해당 챔피언 대기열에서 삭제, 덱에 추가
-                            }
-                        }
-                    }
-                }
-
-            } else if (su == 2) {
-                if(myQue.output() == 1) {
-                    System.out.println("어떤 챔피언을 판매하시겠습니까? (뒤로가기 0)");
-                    int bb = sc.nextInt();
-                    if(bb==0) {
-
-                    }else if(bb <= myQue.queSize() && bb > 0){
-                        //챔피언
-                        myGold.gold += myQue.returnQue(bb-1).getGold(); // 돈 추가
-                        myQue.deletQue(bb-1);
-                        myGold.output();
-                    }
-                    else {
-                        System.out.println("번호를 잘못 입력하셨습니다.");
-                    }
-                }
             }
 
-            else {
+            if (queInput == 1) { //챔피언을 덱으로 이동
+                chamToDeck(canInput, myLevel, myDeck, myQue, queOutput); //챔피언을 덱으로 이동
+            }
+
+            if (queInput == 2) { //챔피언 판매
+                whichChamSell(queOutput, myQue, myGold); //어떤 챔피언을 판매할지
+            }
+
+            if (queInput > 2) {
                 System.out.println("잘못 입력하셨습니다.");
             }
         }
     }
 
-        @Override
+    private void whichChamSell(QueOutput queOutput, Que myQue, Gold myGold) {
+
+        if (queOutput.outputQue(myQue) == 1) {
+
+            System.out.println("어떤 챔피언을 판매하시겠습니까? (뒤로가기 0)");
+            int selectSell = sc.nextInt();
+            if (selectSell == 0) {
+
+            }
+            if (selectSell <= myQue.queSize() && selectSell > 0) {
+                //챔피언
+                myGold.gold += myQue.returnQue(selectSell - 1).getGold(); // 돈 추가
+                myQue.deletQue(selectSell - 1);
+                myGold.output();
+            }
+            if (selectSell > myQue.queSize()) {
+                System.out.println("번호를 잘못 입력하셨습니다.");
+            }
+        }
+    }
+
+    private void chamToDeck(int canInput, Level myLevel, Deck myDeck, Que myQue, QueOutput queOutput) {
+        //대기열에 있는 챔피언을 덱으로
+        if(queOutput.outputQue(myQue)==1) { // 내 대기열 출력
+            System.out.println("덱에 넣을 챔피언을 선택해주세요(번호입력/ 뒤로가기는 0)");
+            int chooseCham = sc.nextInt();
+            if (chooseCham != 0) {
+                limitDeck(canInput, myLevel, myDeck, myQue, chooseCham); //덱에 들어가는 챔피언 수 제한
+            }
+        }
+    }
+
+    private void limitDeck(int canInput, Level myLevel, Deck myDeck, Que myQue, int chooseCham) {
+        //덱에 들어가는 챔피언 수 제한
+        if (canInput == myLevel.getMyLevel()) {
+            System.out.println("덱에는 " + myLevel.getMyLevel() + "개의 챔피언까지만 넣을 수 있습니다.");
+        } else {
+            checkDuplicate(myDeck, myQue, chooseCham); //내 대기열과 덱의 중복 검사
+        }
+    }
+
+    private void checkDuplicate(Deck myDeck, Que myQue, int chooseCham) {
+        //내 대기열과 덱의 중복 검사
+        if (myDeck.isDeck(myQue.returnQue(chooseCham-1)) == 0) {
+            System.out.println("덱에 챔피언을 중복해서 넣을 수 없습니다.");
+        } else {
+            myDeck.addDeck(myQue.deletQue(chooseCham-1));
+            //해당 챔피언 대기열에서 삭제, 덱에 추가
+        }
+    }
+
+    @Override
     public int output() {
         //챔피언 대기창 출력
             System.out.println("┌──────────────────┐");

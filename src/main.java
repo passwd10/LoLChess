@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 
 public class main {
+
     public static void main(String[] args) {
 
         Champion[] champions = new Champion[42]; //게임상에 있는 모든 챔피언들을 담은 배열
@@ -21,6 +22,7 @@ public class main {
         GameResult gameResult = new GameResult();
         Life life = new Life();
         Upgrade upgrade = new Upgrade(); //등급 업그레이드
+
 
         // 챔피언
         champions[0] = new Nar("나르","형상변환자","요들/야생",4,750,125,50,0.7,30,4,1);
@@ -77,7 +79,6 @@ public class main {
         // 5성 케일 카서스 야스오 애니비아 스웨인 미스포츈
 
 
-
         Scanner sc = new Scanner(System.in);
 
         Champion[] chamList = new Champion[5]; //상점에서 챔피언 리스트는 5개만 보여줌
@@ -91,10 +92,10 @@ public class main {
         gameStart.startGame(); //게임 튜토리얼
 
         Level myLevel = new Level(1); //1레벨부터 시작
-        Gold myGold = new Gold(5); //내 골드
+        Gold myGold = new Gold(100); //내 골드
         life.setLife(10); //생명력은 10으로 시작
 
-        shop.randomCham(chamList,champions,myLevel); //챔피언 무작위 호출
+        shop.emergeCham(chamList,champions,myLevel); //챔피언 무작위 호출
         int[] purchased = new int[5]; //이미 구매한 챔피언들을 걸러내기 위한 표시
 
         while (life.getLife() > 0) {
@@ -116,7 +117,7 @@ public class main {
             int select = sc.nextInt();
 
             if (select == 1) {
-                shop.showShop(champions, chamList, myQue, myGold, myLevel,purchased);
+                shop.makeShop(champions, chamList, myQue, myGold, myLevel,purchased);
                 myQue.output(); //내 대기열 출력
                 myGold.output(); //내 골드 출력
                 upgrade.upgradCham(myDeck,myQue);
@@ -146,7 +147,7 @@ public class main {
                     break; //게임 종료
                 }
                 gameRound++; //게임라운드 up
-                shop.randomCham(chamList,champions,myLevel); //챔피언 무작위 호출
+                shop.emergeCham(chamList,champions,myLevel); //챔피언 무작위 호출
                 for(int i=0; i<5; i++) {
                     purchased[i] = 0; //구매한 챔피언 초기화
                 }

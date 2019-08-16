@@ -13,15 +13,20 @@ public class Gold extends MyInfo {
         //이자 계산해서 지급
         if (gold >= 0 && gold < 10) {
             plusGold = 0;
-        } else if (gold >= 10 && gold < 20) {
+        }
+        if (gold >= 10 && gold < 20) {
             plusGold = 1;
-        } else if (gold >= 20 && gold < 30) {
+        }
+        if (gold >= 20 && gold < 30) {
             plusGold = 2;
-        } else if (gold >= 30 && gold < 40) {
+        }
+        if (gold >= 30 && gold < 40) {
             plusGold = 3;
-        } else if (gold >= 40 && gold < 50) {
+        }
+        if (gold >= 40 && gold < 50) {
             plusGold = 4;
-        } else {
+        }
+        if (gold >= 50) {
             plusGold = 5;
         }
     }

@@ -8,15 +8,15 @@ public class GameResult {
 
     public void gameResult(int roundResult, Gold myGold, Life life, Level level) {
         if (roundResult == 2) {
-            System.out.println("\n▶▶▶▶▶▶ You Draw ◀◀◀◀◀◀");
+            System.out.println("\n\t▶▶▶▶▶▶ You Draw ◀◀◀◀◀◀");
         }
 
         if (roundResult == 1) {
-            System.out.println("\n▶▶▶▶▶▶ You Win ◀◀◀◀◀◀");
+            System.out.println("\n\t▶▶▶▶▶▶ You Win ◀◀◀◀◀◀");
         }
 
         if (roundResult == 0) {
-            System.out.println("\n▶▶▶▶▶▶ You Lose ◀◀◀◀◀◀");
+            System.out.println("\n\t▶▶▶▶▶▶ You Lose ◀◀◀◀◀◀");
             life.setLife(life.getLife() - 2);
             //남은 상대챔피언 당 2씩 깎임
         }
