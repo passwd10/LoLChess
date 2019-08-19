@@ -1,6 +1,7 @@
 package Champion;
 
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +59,7 @@ public class Zed extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //제드가 표창을 던져 일직선상의 적에게 피해를 입힙니다.
         //피해량 : 200 / 300 / 400
 

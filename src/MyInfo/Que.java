@@ -67,6 +67,7 @@ public class Que extends MyInfo {
     }
 
     private void whichChamSell(QueOutput queOutput, Que myQue, Gold myGold) {
+        InfoOutput infoOutput = new InfoOutput();
 
         if (queOutput.outputQue(myQue) == 1) {
 
@@ -79,7 +80,7 @@ public class Que extends MyInfo {
                 //챔피언
                 myGold.gold += myQue.returnQue(selectSell - 1).getGold(); // 돈 추가
                 myQue.deletQue(selectSell - 1);
-                myGold.output();
+                infoOutput.goldOutput(myGold);
             }
             if (selectSell > myQue.queSize()) {
                 System.out.println("번호를 잘못 입력하셨습니다.");
@@ -102,7 +103,9 @@ public class Que extends MyInfo {
         //덱에 들어가는 챔피언 수 제한
         if (canInput == myLevel.getMyLevel()) {
             System.out.println("덱에는 " + myLevel.getMyLevel() + "개의 챔피언까지만 넣을 수 있습니다.");
-        } else {
+        }
+
+        if (canInput != myLevel.getMyLevel()){
             checkDuplicate(myDeck, myQue, chooseCham); //내 대기열과 덱의 중복 검사
         }
     }
@@ -111,40 +114,13 @@ public class Que extends MyInfo {
         //내 대기열과 덱의 중복 검사
         if (myDeck.isDeck(myQue.returnQue(chooseCham-1)) == 0) {
             System.out.println("덱에 챔피언을 중복해서 넣을 수 없습니다.");
-        } else {
+        }
+
+        if (myDeck.isDeck(myQue.returnQue(chooseCham-1)) != 0){
             myDeck.addDeck(myQue.deletQue(chooseCham-1));
             //해당 챔피언 대기열에서 삭제, 덱에 추가
         }
     }
 
-    @Override
-    public int output() {
-        //챔피언 대기창 출력
-            System.out.println("┌──────────────────┐");
-            System.out.println("│         나의 챔피언 대기목록       │");
-            System.out.println("└──────────────────┘");
-        if(myQue.size() == 0) {
-            System.out.println("   대기열에 챔피언이 없습니다.\n");
-            return 0;
-        }
-        else {
-            int stringLen;
-            for (int i = 0; i < myQue.size(); i++) {
-                stringLen = myQue.get(i).getName().length() + myQue.get(i).getcClass().length() + myQue.get(i).getTribe().length();
 
-                if(stringLen==5 || stringLen == 6 || stringLen == 7 ) {
-                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t\t\t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
-                } else if(stringLen == 8 || stringLen == 9) {
-                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t\t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
-                } else if(stringLen == 10 || stringLen == 11) {
-                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "] \t" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
-                } else {
-                    System.out.println((i + 1) + ". " + myQue.get(i).getName() + " [" + myQue.get(i).getcClass() + "][" + myQue.get(i).getTribe() + "]" + myQue.get(i).getGrade() + "성 "+myQue.get(i).getGold()+"원");
-                }
-
-            }
-            System.out.println();
-            return 1;
-        }
-    }
 }

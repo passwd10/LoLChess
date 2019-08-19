@@ -1,7 +1,6 @@
 package Champion;
 
-import Common.Attackable;
-import Common.BeAttackable;
+import Common.*;
 import MyInfo.Deck;
 
 public class Warwick extends Champion {
@@ -58,7 +57,7 @@ public class Warwick extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //워윅이 가장 체력이 낮은 적에게 달려들어 1.5초 동안 기절시키고 피해를 입히며 자신의 체력을 회복합니다. 적중 시 효과가 적용됩니다.
         //피해량 : 150 / 225 / 300
 

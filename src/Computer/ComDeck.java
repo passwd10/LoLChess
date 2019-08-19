@@ -1,28 +1,31 @@
 package Computer;
 
 import Champion.*;
+import Common.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ComDeck {
     //컴퓨터의 라운드 별 덱
 
-    Champion[] monsters = new Champion[10]; //갖고있는 몬스터 목록
+    Monster[] monsters = new Monster[10]; //갖고있는 몬스터 목록
     Champion[] champions = new Champion[42]; //갖고있는 챔피언 목록
     Champion[] champions2 = new Champion[42]; //갖고있는 챔피언 목록
     Champion[] champions3 = new Champion[42]; //갖고있는 챔피언 목록
 
-    ArrayList<Champion> comDeck = new ArrayList<Champion>(); //컴퓨터 덱 목록
+    List comDeck = new ArrayList<AllUnit>(); //컴퓨터 덱 목록
 
     public ComDeck() {
         //몇라운드인지 입력받음
 
-        monsters[0] = new Minion("근거리미니언1","","",0,477,0,12,1.25,0,0,0);
-        monsters[1] = new Minion("근거리미니언2","","",0,477,0,12,1.25,0,0,0);
-        monsters[2] = new Minion("원거리리미니언1","","",0,296,0,24,0.667,0,0,0);
-        monsters[3] = new Minion("원거리리미니언2","","",0,296,0,24,0.667,0,0,0);
-        monsters[4] = new Dragon("드래곤","","",0,3500,0,100,0.5,40,0,0);
-        // 챔피언
+        monsters[0] = new Minion("근거리미니언1",477,0,12,1.25,0);
+        monsters[1] = new Minion("근거리미니언2",477,0,12,1.25,0);
+        monsters[2] = new Minion("원거리리미니언1",296,0,24,0.667,0);
+        monsters[3] = new Minion("원거리리미니언2",296,0,24,0.667,0);
+        monsters[4] = new Dragon("드래곤",3500,0,100,0.5,0);
+
+        //챔피언
         //아트록스, 아리, 아칼리, 애쉬, 뽀삐, 볼리베어, 브랜드, 브라움, 초가서, 다리우스, 드레이븐, 엘리스, 이블린, 피오라, 갱플
 
         champions[0] = new Nar("나르(봇)","형상변환자","요들/야생",4,750,125,50,0.7,30,4,1);
@@ -108,61 +111,64 @@ public class ComDeck {
             comDeck.add(monsters[0]);
             comDeck.add(monsters[1]);
         }
-        else if(roundNum == 2) { //2라운드 근거리 1,2 원거리1
+        if(roundNum == 2) { //2라운드 근거리 1,2 원거리1
             comDeck.add(monsters[0]);
             comDeck.add(monsters[1]);
             comDeck.add(monsters[2]);
-        } else if(roundNum == 3) { //3라운드 근거리1,2 원거리1,2
+        }
+        if(roundNum == 3) { //3라운드 근거리1,2 원거리1,2
             comDeck.add(monsters[0]);
             comDeck.add(monsters[1]);
             comDeck.add(monsters[2]);
             comDeck.add(monsters[3]);
-        } else if(roundNum == 4) { //4라운드 카직스, 다리우스
+        }
+        if(roundNum == 4) { //4라운드 카직스, 다리우스
             comDeck.add(champions[0]);
             comDeck.add(champions[1]);
-        } else if(roundNum == 5) { //가렌, 모데카이져, 워윅
+        }
+        if(roundNum == 5) { //가렌, 모데카이져, 워윅
             comDeck.add(champions[2]);
             comDeck.add(champions[3]);
             comDeck.add(champions[4]);
-        } else if(roundNum == 6) { //2성 1개 1성 2개
+        }
+        if(roundNum == 6) { //2성 1개 1성 2개
             comDeck.add(champions2[0]);
             comDeck.add(champions[10]);
             comDeck.add(champions[12]);
-
-        } else if(roundNum == 7) { //2성 2개 1성 2개
+        }
+        if(roundNum == 7) { //2성 2개 1성 2개
             comDeck.add(champions2[0]);
             comDeck.add(champions2[1]);
             comDeck.add(champions[7]);
             comDeck.add(champions[8]);
-
-        } else if(roundNum == 8) { //2성 3개 1성 1개
+        }
+        if(roundNum == 8) { //2성 3개 1성 1개
             comDeck.add(champions2[0]);
             comDeck.add(champions2[1]);
             comDeck.add(champions2[2]);
             comDeck.add(champions[8]);
-
-        } else if(roundNum == 9) {  //3성 1개 2성 2개 1성2개
+        }
+        if(roundNum == 9) {  //3성 1개 2성 2개 1성2개
             comDeck.add(champions3[0]);
             comDeck.add(champions3[1]);
             comDeck.add(champions3[2]);
             comDeck.add(champions2[3]);
             comDeck.add(champions2[4]);
             comDeck.add(champions[10]);
-
-        } else if(roundNum == 10) { //용
+        }
+        if(roundNum == 10) { //용
             comDeck.add(monsters[4]);
         }
     }
-
 
     public void clearDeck() {
         //덱의 챔피언 삭제
         comDeck.clear();
     }
 
-    public Champion retCham(int i) {
-        //내 덱에서 싸울 챔피언을 반환해줌
-        Champion fightCham = comDeck.get(i);
+    public AllUnit retCham(int i) {
+        //컴퓨터 덱에서 싸울 챔피언을 반환해줌
+        AllUnit fightCham = (AllUnit)comDeck.get(i);
         return fightCham;
     }
 

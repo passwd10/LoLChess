@@ -38,10 +38,4 @@ public class Level extends MyInfo {
         return this.myLevel;
     }
 
-    @Override
-    public int output() {
-        System.out.print("   레벨 : " + myLevel + " Lv");
-        System.out.println("  [" + (myLevel+1) +"Lv까지 " + (myLevel*(myLevel+1)-myXp) +"XP 필요]");
-        return 0;
-    }
 }

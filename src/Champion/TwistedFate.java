@@ -1,7 +1,6 @@
 package Champion;
 
-import Common.Attackable;
-import Common.BeAttackable;
+import Common.*;
 import MyInfo.Deck;
 
 public class TwistedFate extends Champion {
@@ -62,7 +61,7 @@ public class TwistedFate extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
 
     }
 

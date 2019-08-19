@@ -2,7 +2,7 @@ package Champion;
 
 import Common.*;
 
-public abstract class Champion implements BeAttackable, Attackable, SkillActive, ClassSynergy{
+public abstract class Champion extends AllUnit implements SkillActive, ClassSynergy{
     //캐릭터 추상클래스
 
     private String name;
@@ -90,6 +90,5 @@ public abstract class Champion implements BeAttackable, Attackable, SkillActive,
     public double getAttackSpeed() { return this.attackSpeed; }
 
     public int getTier() { return this.tier; }
-
 
 }

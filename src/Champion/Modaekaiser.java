@@ -1,6 +1,6 @@
 package Champion;
 
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -57,7 +57,7 @@ public class Modaekaiser extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //모데카이저가 전방에 철퇴를 내리쳐 일직선상에 있는 적 두 명에게 피해를 입힙니다.
         //피해량 : 200 / 325 / 450
 

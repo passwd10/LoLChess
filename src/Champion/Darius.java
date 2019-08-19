@@ -1,6 +1,7 @@
 package Champion;
 
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -57,7 +58,7 @@ public class Darius extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //다리우스가 도끼를 휘둘러 주변 적에게 피해를 입히고 맞은 적의 수에 비례해 자신의 체력을 회복합니다.
         //피해량 : 150 / 200 / 250
         //회복 : 100 / 150 / 200

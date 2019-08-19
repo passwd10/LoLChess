@@ -3,24 +3,16 @@ package GameProgress;
 import MyInfo.Gold;
 import MyInfo.Level;
 import MyInfo.Life;
+import Output.GameResultOutput;
+import Output.InfoOutput;
 
 public class GameResult {
 
     public void gameResult(int roundResult, Gold myGold, Life life, Level level) {
-        if (roundResult == 2) {
-            System.out.println("\n\t▶▶▶▶▶▶ You Draw ◀◀◀◀◀◀");
-        }
+        InfoOutput infoOutput = new InfoOutput();
+        GameResultOutput gameResultOutput = new GameResultOutput();
 
-        if (roundResult == 1) {
-            System.out.println("\n\t▶▶▶▶▶▶ You Win ◀◀◀◀◀◀");
-        }
-
-        if (roundResult == 0) {
-            System.out.println("\n\t▶▶▶▶▶▶ You Lose ◀◀◀◀◀◀");
-            life.setLife(life.getLife() - 2);
-            //남은 상대챔피언 당 2씩 깎임
-        }
-
+        gameResultOutput.roundResult(roundResult, life); //라운드 결과 출력
 
         level.setMyXp(level.getMyXp() + 2); //경험치 2 증가
         level.isMyLevel(level.getMyXp());
@@ -28,32 +20,7 @@ public class GameResult {
         myGold.gold += 5; //보상금
         myGold.gold += myGold.getPlusGold();
 
-
-        System.out.println("┌──────────────────┐");
-        System.out.println("│            상태 및 보상            │");
-        System.out.println("└──────────────────┘");
-        System.out.println("   XP +2");
-        System.out.println("   골드 +"+(5+myGold.getPlusGold()));
-        life.output();
-        System.out.println("────────────────────");
-
+        gameResultOutput.outputReward(life,myGold,infoOutput); // 라운드 보상 출력
     }
 
-    public void totalResult(Gold myGold, Life life, Level level) {
-
-            System.out.println("┌──────────────────┐");
-            System.out.println("│              최종 결과             │");
-            System.out.println("└──────────────────┘");
-            System.out.println("   레벨 : " + level.getMyLevel());
-            System.out.println("   골드 : " + myGold.gold);
-            life.output();
-            System.out.println("────────────────────");
-            if(life.getLife() > 0) {
-                //생명력이 0 이상이면 승급
-                System.out.println("■□■□■□■ SILVER 승급 □■□■□■□");
-            } else {
-                System.out.println("■□■□■□■ 승급 실패 □■□■□■□");
-            }
-
-    }
 }

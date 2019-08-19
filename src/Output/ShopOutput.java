@@ -8,6 +8,8 @@ public class ShopOutput {
 
 
     public void outputShop(Level myLevel, Gold myGold, Champion[] chamList) {
+        InfoOutput infoOutput = new InfoOutput();
+
         //상점 출력
         System.out.println("┌──────────────────┐");
         System.out.println("│             챔피언 상점            │");
@@ -22,10 +24,10 @@ public class ShopOutput {
         System.out.println("┌──────────────────┐");
         System.out.println("│            플레이어 정보           │");
         System.out.println("└──────────────────┘");
-        myLevel.output(); //내 현재 레벨 출력
+        infoOutput.levelOutput(myLevel); //내 레벨
         System.out.println("   경험치 : " + myLevel.getMyXp() + " XP");
         myGold.plusGold(); // 이자 계산
-        myGold.output(); //내 현재 골드를 보여줌
+        infoOutput.goldOutput(myGold); //내 현재 골드를 보여줌
         System.out.println(" 구매할 챔피언 번호를 입력하세요(종료 0)");
     }
 

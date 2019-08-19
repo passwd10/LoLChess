@@ -1,6 +1,6 @@
 package Champion;
 
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -26,7 +26,7 @@ public class Leona extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
 
     }
 

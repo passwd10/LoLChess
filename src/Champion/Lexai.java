@@ -1,6 +1,6 @@
 package Champion;
 
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +58,7 @@ public class Lexai extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //렉사이가 잠시 매복 상태가 됩니다. 매복 상태에서는 대상으로 지정할 수 없으며 체력을 회복합니다. 렉사이가 매복을 풀고 나올 때 가장 가까운 적에게 피해를 입히고 1.75초 동안 공중으로 띄워 올립니다.
         //회복 : 150 / 300 / 450
         //피해량 : 200 / 350 / 500

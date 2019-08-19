@@ -1,14 +1,13 @@
 package Computer;
 
-import Champion.Champion;
-import Common.Attackable;
+
+import Common.*;
 import Common.BeAttackable;
-import MyInfo.Deck;
 
-public class Dragon extends Champion {
+public class Dragon extends Monster {
 
-    public Dragon(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
-        super(name, chamClass, tribe, tier, hp, mp, power, attackSpeed, armor, gold, grade);
+    public Dragon(String name, double hp, int mp, double power, double attackSpeed, double armor) {
+        super(name, hp, mp, power, attackSpeed, armor);
     }
 
     @Override
@@ -33,28 +32,4 @@ public class Dragon extends Champion {
         System.out.println();
     }
 
-    @Override
-    public void classSynergy(Deck deck) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
-    }
 }

@@ -1,12 +1,12 @@
-package GameProgress;
+package Output;
 
 import java.util.Scanner;
 
-public class GameStart {
+public class ProgressOutput {
 
     Scanner sc = new Scanner(System.in);
 
-    public void startGame() {
+    public void tutorial() {
         //게임 시작 창
 
         //첫 화면
@@ -99,5 +99,20 @@ public class GameStart {
 
     }
 
+    public void firstScreen(int gameRound) {
+        //라운드 첫화면 출력
+        System.out.println("┌──────────────────┐");
+        System.out.println("│\t\t\t\t"+gameRound+" 라운드\t\t\t  │");
+        System.out.println("├──────────────────┤");
+        System.out.println("│\t\t\t\t\t\t\t\t\t  │");
+        System.out.println("│  1. 챔피언 상점                    │");
+        System.out.println("│  2. 대기열 설정                    │");
+        System.out.println("│  3. 전투덱 설정                    │");
+        System.out.println("│  4. 나의 정보                      │");
+        System.out.println("│  0. 전투 시작                      │");
+        System.out.println("│\t\t\t\t\t\t\t\t\t  │");
+        System.out.println("└──────────────────┘");
+        System.out.print(" 숫자입력 >>  ");
+    }
 
 }

@@ -1,8 +1,6 @@
 package Champion;
 
-import Common.Attackable;
-import Common.BeAttackable;
-import Champion.*;
+import Common.*;
 import MyInfo.Deck;
 
 public class Veigar extends Champion {
@@ -63,7 +61,7 @@ public class Veigar extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
 
     }
 

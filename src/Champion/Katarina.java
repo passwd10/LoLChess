@@ -1,7 +1,7 @@
 package Champion;
 
 import ChamClass.Assasin;
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +58,7 @@ public class Katarina extends Champion implements Assasin {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //카타리나가 2.5초 동안 정신 집중을 한 뒤 주변 적에게 단검을 던져 피해를 입히고 회복 효과를 감소시킵니다.
         //피해량 : 40 / 60 / 80
         //대상 수 : 4 / 6 / 8

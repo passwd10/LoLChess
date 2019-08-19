@@ -1,6 +1,7 @@
 package Champion;
 
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -62,7 +63,7 @@ public class Kennen extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
 
     }
 

@@ -1,6 +1,7 @@
 package Champion;
 
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +59,7 @@ public class Chogas extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //초가스가 땅을 파열시켜 대상 지역에 있는 적 모두를 기절시키고 피해를 입힙니다.
         //피해량 : 200 / 400 / 600
         //띄워올리기 지속시간 : 1.5 / 1.75 / 2

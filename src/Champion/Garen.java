@@ -1,6 +1,6 @@
 package Champion;
 
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +58,7 @@ public class Garen extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //가렌이 4초 동안 검을 들고 회전하며 마법 피해에 면역 상태가 되고 주변 적에게 피해를 입힙니다.
         //틱당 피해량 : 40 / 65 / 90
         if (getMp() >= getMAX_MP()) {

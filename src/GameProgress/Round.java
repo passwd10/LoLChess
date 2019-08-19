@@ -1,5 +1,7 @@
 package GameProgress;
 
+import Common.AllUnit;
+import Common.SkillActive;
 import Computer.ComDeck;
 import MyInfo.*;
 import Champion.*;
@@ -17,6 +19,9 @@ public class Round {
     private static final int NOT_DOWN = 1;
     private static final int CANT_INPUT = 1;
     private static final int CAN_INPUT = 0;
+    private static final int VICTORY = 1;
+    private static final int DRAW = 2;
+    private static final int DEFEAT = 0;
 
     private int mRest; //처치당한 내 챔피언
     private int bRest; // 처치한 봇 챔피언
@@ -50,11 +55,13 @@ public class Round {
 
             checkInsert(insertCham, myQue); //insertCham 중복 체크
 
-            if (insertCham.size() <= interval) { //넣어야될 챔피언에비해 대기열이 작을경우
+            if (insertCham.size() <= interval) { //넣어야될 챔피언에비해 대기열이 작거나 같을경우
 
                 inputAllQue(insertCham, myDeck, myQue, isInput); //내 대기열에있는 챔피언을 덱으로 다 넣어줌
 
-            } else {
+            }
+
+            if (insertCham.size() > interval) {  //넣어야될 챔피언에비해 대기열이 클을경우
 
                 inputPartQue(insertCham, myDeck, myQue, isInput, interval); //내 대기열의 챔피언중 일부만 덱에 넣어줌
 
@@ -146,19 +153,16 @@ public class Round {
     public int startStage(int roundNum, Deck myDeck, ComDeck comDeck) {
         //스테이지 시작 챔피언 봇이 나올때
 
-        Champion[] computer = new Champion[comDeck.deckSize()];
-
         for (int i = 0; i < comDeck.deckSize(); i++) {
-            computer[i] = comDeck.retCham(i);
-            computer[i].setMp(0); //마나 초기화
+            comDeck.retCham(i).setMp(0); //마나 초기화
         }
 
         System.out.println(roundNum + " 라운드를 시작하겠습니다.");
 
-        comAppeared(comDeck, computer); //컴퓨터 챔피언이 뭐가 나오나?
+        comAppeared(comDeck); //컴퓨터 챔피언이 뭐가 나오나?
 
         int gameRound = 0;
-        gameOver = 1;
+        this.gameOver = 1;
         this.mRest = 0; //처치당한 내 챔피언
         this.bRest = 0; // 처치한 봇 챔피언
 
@@ -176,44 +180,47 @@ public class Round {
                 break;
             }*/
 
-            playerAttack(myDeck, comDeck, computer); //내 공격
+            playerAttack(myDeck, comDeck); //내 공격
 
-            botAttack(myDeck, comDeck, computer); //컴퓨터 공격
+            System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+            botAttack(myDeck, comDeck); //컴퓨터 공격
 
             System.out.println("========================= " + gameRound + " ===========================");
         }
 
         for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 초기화
-            computer[a].setHp(computer[a].getMAX_HP());
-            computer[a].setMp(computer[a].getMAX_MP());
+            comDeck.retCham(a).setHp(comDeck.retCham(a).getMAX_HP());
+            comDeck.retCham(a).setMp(comDeck.retCham(a).getMAX_MP());
         }
 
-        comDeck.clearDeck(); //컴퓨터 덱 초기화
 
-        if (gameRound == 20) {
-            return 2; //무승부
+        if (this.bRest == comDeck.deckSize()) { //봇 유닛을 모두 처치했으면
+            comDeck.clearDeck(); //컴퓨터 덱 초기화
+            return VICTORY; //승리
         }
 
-        if (this.bRest == comDeck.deckSize()) {
-            return 1; //승리
+        if (this.mRest == myDeck.deckSize()) { //내 유닛이 모두 처치당했으면
+            comDeck.clearDeck(); //컴퓨터 덱 초기화
+            return DEFEAT; //패배
         }
 
-        if (this.mRest == myDeck.deckSize()) {
-            return 0; //패배
+        if (gameRound == 21) {
+            comDeck.clearDeck(); //컴퓨터 덱 초기화
+            return DRAW; //무승부
         }
 
         return 1;
     }
 
-    private void botAttack(Deck myDeck, ComDeck comDeck, Champion[] computer) {
+    private void botAttack(Deck myDeck, ComDeck comDeck) {
         //컴퓨터 공격
         for (int b = 0; b < comDeck.deckSize(); b++) {
 
-            if (isDownCom(computer, b) == NOT_DOWN && gameOver == GAME_CONTINUE) {
+            if (isDownCom(comDeck, b) == NOT_DOWN && gameOver == GAME_CONTINUE) {
 
-                isMaxMpCom(myDeck, b, computer); // Computer mp가 꽉 차면 스킬 사용
+                isMaxMpCom(myDeck, b, comDeck); // Computer mp가 꽉 차면 스킬 사용
 
-                myDeck.retCham(this.mRest).beAttacked(computer[b]); //전투중 상태출력
+                myDeck.retCham(this.mRest).beAttacked(comDeck.retCham(b)); //전투중 상태출력
 
                 gameOver = isGameOverCom(myDeck);
 
@@ -221,39 +228,35 @@ public class Round {
         }
     }
 
-    private void playerAttack(Deck myDeck, ComDeck comDeck, Champion[] computer) {
+    private void playerAttack(Deck myDeck, ComDeck comDeck) {
         //내 공격
         for (int deckNum = 0; deckNum < myDeck.deckSize(); deckNum++) {
 
             if (isDown(myDeck, deckNum) == NOT_DOWN && gameOver == GAME_CONTINUE) { //체력이 0인가? 0이면 Down
 
-                isMaxMp(myDeck, deckNum, computer); // mp가 꽉 차면 스킬 사용
+                isMaxMp(myDeck, deckNum, comDeck); // mp가 꽉 차면 스킬 사용
 
-                computer[this.bRest].beAttacked(myDeck.retCham(deckNum)); //전투중 상태출력
+                comDeck.retCham(this.bRest).beAttacked(myDeck.retCham(deckNum)); //전투중 상태출력
 
-                gameOver = isGameOver(computer, comDeck); //게임이 끝났는지 판단
+                gameOver = isGameOver(comDeck); //게임이 끝났는지 판단
 
             }
         }
     }
 
-    private void comAppeared(ComDeck comDeck, Champion[] computer) { //출현하는 봇챔피언 출력
+    private void comAppeared(ComDeck comDeck) { //출현하는 봇챔피언 출력
         for (int i = 0; i < comDeck.deckSize(); i++) {
-            if (computer[i].getGrade() == 0) {
-                System.out.print(computer[i].getName() + " ");
-            } else {
-                System.out.print(computer[i].getName() + "(" + computer[i].getGrade() + "성) ");
-            }
+            System.out.print(comDeck.retCham(i).getName() + " ");
         }
 
         System.out.println("가 출현합니다.\n");
 
     }
 
-    private int isDownCom(Champion[] computer, int b) { //컴퓨터가 DOWN 됐나?
-        if (computer[b].getHp() == 0) {
+    private int isDownCom(ComDeck comDeck, int b) { //컴퓨터가 DOWN 됐나?
+        if (comDeck.retCham(b).getHp() == 0) {
             //공격하는 봇이 죽으면
-            System.out.println("[ Down ] " + computer[b].getName());
+            System.out.println("[ Down ] " + comDeck.retCham(b).getName());
             return DOWN;
         }
         return NOT_DOWN;
@@ -267,12 +270,33 @@ public class Round {
         return NOT_DOWN; //진행
     }
 
-    private void isMaxMpCom(Deck myDeck, int b, Champion[] computer) {
-        if (computer[b].getMp() != 0 && computer[b].getMp() == computer[b].getMAX_MP()) {
+    private void isMaxMp(Deck myDeck, int deckNum, ComDeck comDeck) {
+
+        if (myDeck.retCham(deckNum).getMp() == myDeck.retCham(deckNum).getMAX_MP()) {
+            //마나가 다 차면 스킬 사용
+            if(myDeck.retCham(deckNum) instanceof SkillActive) {
+                myDeck.retCham(deckNum).useSkill(comDeck.retCham(this.bRest));
+            }
+        }
+
+        if(myDeck.retCham(deckNum).getMp() != myDeck.retCham(deckNum).getMAX_MP()){
+            //마나가 다 차지 않으면 평타
+            myDeck.retCham(deckNum).attack(comDeck.retCham(this.bRest)); //공격함
+        }
+
+    }
+
+    private void isMaxMpCom(Deck myDeck, int b, ComDeck comDeck) {
+
+        if (comDeck.retCham(b).getMp() == comDeck.retCham(b).getMAX_MP()) {
             //마나게이지가 다 차면 스킬사용
-            computer[b].useSkill(myDeck.retCham(this.mRest));
-        } else {
-            computer[b].attack(myDeck.retCham(this.mRest)); //공격함
+            if(comDeck.retCham(b) instanceof SkillActive) { //스킬 사용이 가능하다면
+                ((SkillActive) comDeck.retCham(b)).useSkill(myDeck.retCham(this.mRest));
+            }
+        }
+
+        if (comDeck.retCham(b).getMp() != comDeck.retCham(b).getMAX_MP()){
+            comDeck.retCham(b).attack(myDeck.retCham(this.mRest)); //공격함
         }
     }
 
@@ -288,8 +312,8 @@ public class Round {
         return GAME_CONTINUE;
     }
 
-    private int isGameOver(Champion[] computer, ComDeck comDeck) {
-        if (computer[this.bRest].getHp() == 0) {
+    private int isGameOver(ComDeck comDeck) {
+        if (comDeck.retCham(this.bRest).getHp() == 0) {
             //공격을 받은 봇이 죽을때
             this.bRest++;
             if (this.bRest == comDeck.deckSize()) { //챔피언을 다 처치함'
@@ -308,17 +332,5 @@ public class Round {
         // Todo: TribeSynergy 발동
     }
 
-    private void isMaxMp(Deck myDeck, int deckNum, Champion[] computer) {
-
-        if (myDeck.retCham(deckNum).getMp() == myDeck.retCham(deckNum).getMAX_MP()) {
-            //마나가 다 차면 스킬 사용
-            myDeck.retCham(deckNum).useSkill(computer[this.bRest]);
-        } else {
-            //마나가 다 차지 않으면 평타
-            myDeck.retCham(deckNum).attack(computer[this.bRest]); //공격함
-
-        }
-
-    }
 
 }

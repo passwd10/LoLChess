@@ -1,6 +1,6 @@
 package Champion;
 
-import Common.Attackable;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -57,7 +57,7 @@ public class Khazix extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //카직스가 가장 가까운 적을 베어 피해를 입힙니다. 고립된 적은 추가 피해를 입습니다.
         //피해량 : 150 / 300 / 450
         //고립 피해량 : 400 / 600 / 800

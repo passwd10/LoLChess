@@ -1,6 +1,7 @@
 package Champion;
 
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
@@ -58,7 +59,7 @@ public class Bolibear extends Champion {
 
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
         //볼리베어의 공격이 강화되어 여러 적에게 연쇄 피해를 입히고 적중 시 효과를 적용합니다.
         //최대 튕기는 횟수 : 2 / 3 / 4
         //연쇄 공격 피해량 증가율 : 0.8 / 0.9 / 1

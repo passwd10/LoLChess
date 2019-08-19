@@ -35,9 +35,4 @@ public class Gold extends MyInfo {
         return this.plusGold;
     }
 
-    @Override
-    public int output() {
-        System.out.println("   골드 : "+gold + "원 (이자 "+ plusGold + "원)");
-        return 1;
-    }
 }

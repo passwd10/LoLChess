@@ -1,7 +1,8 @@
 package Champion;
 
 import ChamClass.Assasin;
-import Common.Attackable;
+import Common.AllUnit;
+import Common.*;
 import Common.BeAttackable;
 import Common.ClassSynergy;
 import MyInfo.Deck;
@@ -60,7 +61,7 @@ public class Akali extends Champion {
     }
 
     @Override
-    public void useSkill(Champion champion) {
+    public void useSkill(AllUnit champion) {
 
         if (getMp() >= getMAX_MP()) {
 
