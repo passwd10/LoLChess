@@ -201,7 +201,7 @@ public class Shop {
         chamPercent = random.nextInt(99) + 1; //1~100사이 퍼센트
 
         while (true) { //알맞은 챔피언이 뽑힐때까지 반복
-            chamList[chamNum] = champions[random.nextInt(42)]; //0~42까지 임의의 숫자 랜덤입력
+            chamList[chamNum] = champions[random.nextInt(12)]; //0~42까지 임의의 숫자 랜덤입력
 
             if(adequateCham(chamPercent, chamList, 0,firstTier, chamNum, 1)==RIGHT_CHAM) {
                 break;                  // 1티어 챔피언만

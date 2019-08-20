@@ -12,8 +12,7 @@ public class Upgrade {
     Champion[] champions2 = new Champion[42]; //2성 챔피언
     Champion[] champions3 = new Champion[12]; //3성 챔피언
 
-    public void upgradCham(Deck myDeck, Que myQue) {
-
+    public Upgrade() {
         // 챔피언
         champions2[0] = new Nar("나르","형상변환자","요들/야생",4,1350,125,90,0.7,30,6,2);
 
@@ -82,46 +81,22 @@ public class Upgrade {
         champions3[10] = new Garen("가렌", "기사", "귀족", 1, 2160, 100, 180, 0.55, 35, 5, 3);
         champions3[11] = new Modaekaiser("모데카이저", "기사", "유령", 1, 1980, 100, 180, 0.5, 35, 5, 3);
 
+    }
+
+    public void upgradCham(Deck myDeck, Que myQue) {
+
         int decksize = myDeck.deckSize();
         int quesize = myQue.queSize();
         int allSize = decksize + quesize; //덱과 대기열 전체 크기
         ArrayList<Champion> myAllCham = new ArrayList<Champion>(); //덱과 대기열의 모든 챔피언
 
-        for (int i = 0; i < decksize; i++) {
-            //덱을 한곳에 저장
-            myAllCham.add(myDeck.retCham(0));
-            myDeck.deletDeck(1); //저장한 덱은 삭제
-        }
-
-        for (int j = 0; j < quesize; j++) {
-            //대기열을 한곳에 저장
-            myAllCham.add(myQue.returnQue(0));
-            myQue.deletQue(0); //저장한 대기열은 삭제
-        }
+        addDeckToAllCham(myAllCham, myDeck, decksize); //덱을 AllCham에 저장
+        addQueToAllCham(myAllCham, myQue, quesize); //대기열을 AllCham에 저장
 
         int[] array1 = new int[allSize]; //1성 확인
         int[] array2 = new int[allSize]; //2성 확인
 
-        for (int i = 0; i < allSize; i++) {
-            //덱과 대기열 챔프 중복검사
-            if (myAllCham.get(i).getGrade() == 1) {
-                //1성인 경우
-                for (int a = 0; a < i; a++) {
-                    if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
-                        //내가 갖고있는 챔프중 이름이 중복되는 챔프가 있으면
-                        array1[i] += 1; //중복챔피언이라고 확인해줌
-                    }
-                }
-            } else if (myAllCham.get(i).getGrade() == 2) {
-                //2성인 경우
-                for (int a = 0; a < i; a++) {
-                    if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
-                        //내가 갖고있는 챔프중 이름이 중복되는 챔프가 있으면
-                        array2[i] += 1; //중복챔피언이라고 확인해줌
-                    }
-                }
-            }
-        }
+        totalDuplicate(myAllCham, array1, array2, allSize); //1성 2성 챔피언 전체 중복검사
 
         for (int i = 0; i < allSize; i++) {
             //1성 챔피언을 2성으로 바꿔주고 나머지 1성 챔프를 삭제
@@ -132,29 +107,13 @@ public class Upgrade {
                 String removeCham = myAllCham.get(i).getName(); //지울 챔피언의 이름
 
                 int immsiSize = allSize; //임시 사이즈 저장
+                deleteFirstGrade(immsiSize, removeCham, myAllCham, removeCnt); //1성 챔피언 3개 삭제
+                addSecondGrade(i, removeCham, myAllCham, array1); //2성 챔피언 1개 추가
 
-                for (int a = 0; a < immsiSize; a++) {
-                    //관련 1성챔프 3개 삭제
+            }
 
-                    if ((removeCham.equals(myAllCham.get(a).getName())) && (removeCnt < 4)) {
-                        //중복되는 이름이 있고
-                        myAllCham.remove(a);
-                        a--;
-                        immsiSize--;
-                        removeCnt++; // 3개 이상은 못지움
-
-                    }
-                }
-
-                for (int b = 0; b < 12; b++) {
-                    //2성챔피언 추가
-                    if (removeCham.equals(champions2[b].getName())) {
-                        //내가갖고있는 챔피언과 2성챔피언들의 이름을 비교함
-                        myAllCham.add(champions2[b]); //2성 챔피언 추가
-                        array1[i] = 0; //바꿨으니 0으로 초기화
-                    }
-                }
-            } else if (array2[i] == 2) { //2성 챔피언을 3성으로 바꿔주고 나머지 2성 챔프를 삭제
+            //3성 업데이트할때 쓰기
+            /*if (array2[i] == 2) { //2성 챔피언을 3성으로 바꿔주고 나머지 2성 챔프를 삭제
                 //2성 3개가 모인경우
 
                 int removeCnt = 0; //지운 챔피언의 수
@@ -183,22 +142,106 @@ public class Upgrade {
                         array1[i] = 0; //바꿨으니 0으로 초기화
                     }
                 }
+            }*/
+        }
+
+        returnToQueDeck(myAllCham, myQue, myDeck); //대기열과 덱에 다시 챔피언 배분
+    }
+
+    private void addSecondGrade(int i, String removeCham, ArrayList<Champion> myAllCham, int[] array1) {
+        //2성 챔피언 1개 추가
+        for (int b = 0; b < 12; b++) {
+            if (removeCham.equals(champions2[b].getName())) {
+                //내가갖고있는 챔피언과 2성챔피언들의 이름을 비교함
+                myAllCham.add(champions2[b]); //2성 챔피언 추가
+                array1[i] = 0; //바꿨으니 0으로 초기화
+            }
+        }
+    }
+
+    private void deleteFirstGrade(int immsiSize, String removeCham, ArrayList<Champion> myAllCham, int removeCnt) {
+        //관련 1성챔프 3개 삭제
+
+        for (int a = 0; a < immsiSize; a++) {
+
+            if ((removeCham.equals(myAllCham.get(a).getName())) && (removeCnt < 4)) {
+                //중복되는 이름이 있고
+                myAllCham.remove(a);
+                a--;
+                immsiSize--;
+                removeCnt++; // 3개 이상은 못지움
+
+            }
+        }
+    }
+
+    private void totalDuplicate(ArrayList<Champion> myAllCham, int[] array1, int[] array2, int allSize) {
+        //1성 2성 전체 중복검사
+        for (int i = 0; i < allSize; i++) {
+            //덱과 대기열 챔프 중복검사
+            if (myAllCham.get(i).getGrade() == 1) {
+                duplicateDeckQue1(i, myAllCham, array1); //1성챔피언 덱과 대기열 챔프 중복검사
+            }
+            if (myAllCham.get(i).getGrade() == 2) {
+                duplicateDeckQue2(i, myAllCham, array2); //2성챔피언 덱과 대기열 챔프 중복검사
+            }
+
+        }
+    }
+
+    private void addQueToAllCham(ArrayList<Champion> myAllCham, Que myQue, int queSize) {
+        for (int j = 0; j < queSize; j++) {
+            //대기열을 한곳에 저장
+            myAllCham.add(myQue.returnQue(0));
+            myQue.deletQue(0); //저장한 대기열은 삭제
+        }
+    }
+
+    private void addDeckToAllCham(ArrayList<Champion> myAllCham, Deck myDeck, int deckSize) {
+        for (int i = 0; i < deckSize; i++) {
+            //덱을 한곳에 저장
+            myAllCham.add(myDeck.retCham(0));
+            myDeck.deletDeck(1); //저장한 덱은 삭제
+        }
+    }
+
+    private void duplicateDeckQue2(int i, ArrayList<Champion> myAllCham, int[] array2) {
+        //2성인 경우
+        for (int a = 0; a < i; a++) {
+            if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
+                //내가 갖고있는 챔프중 이름이 중복되는 챔프가 있으면
+                array2[i] += 1; //중복챔피언이라고 확인해줌
             }
         }
 
+    }
+
+    private void duplicateDeckQue1(int i, ArrayList<Champion> myAllCham, int[] array1) {
+        //1성인 경우
+        for (int a = 0; a < i; a++) {
+            if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
+                //내가 갖고있는 챔프중 이름이 중복되는 챔프가 있으면
+                array1[i] += 1; //중복챔피언이라고 확인해줌
+            }
+        }
+
+    }
+
+    private void returnToQueDeck(ArrayList<Champion> myAllCham, Que myQue, Deck myDeck) {
         //대기열과 덱에 다시 배분
         for (int i = 0; i < myAllCham.size(); i++) {
             if (myAllCham.size() < 9) {
                 //넣으려는 챔피언 수가 9보다 작으면 다 대기열에 넣어버림
                 myQue.addQue(myAllCham.get(i));
-            } else { //9보다 크면 대기열에 9 나머지는 덱
+            }
+            if (myAllCham.size() >= 9){ //9보다 크면 대기열에 9 나머지는 덱
                 if (i < 9) {
                     myQue.addQue(myAllCham.get(i));
-                } else {
+                }
+                if (i >= 9){
                     myDeck.addDeck(myAllCham.get(i));
                 }
             }
         }
-
     }
 }

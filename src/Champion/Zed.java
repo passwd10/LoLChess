@@ -7,6 +7,7 @@ import MyInfo.Deck;
 
 public class Zed extends Champion {
 
+
     public Zed(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
         super(name, chamClass, tribe, tier, hp, mp, power, attackSpeed, armor, gold, grade);
     }
