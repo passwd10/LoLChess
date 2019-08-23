@@ -5,7 +5,7 @@ import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
 
-public class Braum extends Champion {
+public class Braum extends Champion  {
 
     public Braum(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
         super(name, chamClass, tribe, tier, hp, mp, power, attackSpeed, armor, gold, grade);
@@ -63,7 +63,7 @@ public class Braum extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -80,23 +80,7 @@ public class Braum extends Champion {
             System.out.println("/ MP " + getMp() + " ]");
             System.out.println("[Skill] 불굴 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
         }
     }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
-    }
 }

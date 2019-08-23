@@ -2,12 +2,13 @@ package MyInfo;
 
 import Champion.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import Output.*;
 
 public class Que extends MyInfo {
 
-    ArrayList<Champion> myQue = new ArrayList(); //나의 챔피언 대기목록
+    List<Champion> myQue = new ArrayList(); //나의 챔피언 대기목록
 
     Scanner sc = new Scanner(System.in);
 

@@ -30,8 +30,14 @@ public class Shop {
         while (shopping == KEEP_SHOPPING) { //챔피언을 계속 구매할지?
 
             shopOutput.outputShop(myLevel, myGold, chamList); //상점 출력
+            int num = 0;
 
-            int num = sc.nextInt();
+            try{
+                num = sc.nextInt();
+
+            } catch (Exception e) {
+
+            }
 
             shopping = whichShopping(num, myGold, myLevel, chamList, myQue, champions, purchased); //무엇을 구매할것인가?
 

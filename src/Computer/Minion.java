@@ -13,10 +13,7 @@ public class Minion extends Monster {
 
     @Override
     public void attack(BeAttackable target) {
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
+
     }
 
     @Override
@@ -27,10 +24,6 @@ public class Minion extends Monster {
             setHp(0);
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
     }
 
 

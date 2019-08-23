@@ -106,7 +106,13 @@ public class main {
             //gameContent(myLevel, myGold); //게임 컨텐츠 실행
             int[] purchased = new int[5]; //이미 구매한 챔피언들을 걸러내기 위한 표시
 
-            int select = sc.nextInt();
+            int select = 1;
+            try{
+                select = sc.nextInt();
+
+            } catch (Exception e) {
+
+            }
 
             if (select == 1) {
                 shop.makeShop(champions, chamList, myQue, myGold, myLevel, purchased);

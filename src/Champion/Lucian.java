@@ -61,23 +61,9 @@ public class Lucian extends Champion {
 
     }
 
-    @Override
-    public void useSkill(AllUnit champion) {
-
-    }
 
     @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
+    public void useSkill(AllUnit[] target) {
 
     }
 }

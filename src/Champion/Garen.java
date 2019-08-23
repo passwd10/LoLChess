@@ -3,6 +3,7 @@ package Champion;
 import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Garen extends Champion {
 
@@ -28,11 +29,6 @@ public class Garen extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -49,53 +45,36 @@ public class Garen extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         //가렌이 4초 동안 검을 들고 회전하며 마법 피해에 면역 상태가 되고 주변 적에게 피해를 입힙니다.
         //틱당 피해량 : 40 / 65 / 90
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
+
+        int deal = 0;
+
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-160);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-260);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-360);
+                deal = 160;
             }
+            if (getGrade() == 2) { //2성일때
+                deal = 260;
+            }
+            if (getGrade() == 3) { //3성일떄
+                deal = 360;
+            }
+
+            varietySkillActive.attackTwo(target, deal);
+
             setMp(0);
-            champion.setMp(champion.getMp() + 20);
 
-            System.out.print(getName());
-            System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-            System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 심판 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
+            statusOutput.skillOutput("심 판");
         }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
     }
 
     @Override

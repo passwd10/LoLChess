@@ -63,44 +63,30 @@ public class Elise extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-getPower()*0.6);
+                target[0].setHp(target[0].getHp()-getPower()*0.6);
                 setHp(getHp()+getPower()*0.6);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-getPower()*0.9);
+            }
+            if (getGrade() == 2) { //2성일때
+                target[0].setHp(target[0].getHp()-getPower()*0.9);
                 setHp(getHp()+getPower()*0.9);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-getPower()*1.2);
+            }
+            if (getGrade() == 3) { //3성일떄
+                target[0].setHp(target[0].getHp()-getPower()*1.2);
                 setHp(getHp()+getPower()*1.2);
             }
             setMp(0);
-            champion.setMp(champion.getMp() + 20);
+            target[0].setMp(target[0].getMp() + 20);
 
             System.out.print(getName());
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
             System.out.println("/ MP " + getMp() + " ]");
             System.out.println("[Skill] 거미 형태 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
         }
     }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
-    }
 }

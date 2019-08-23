@@ -1,9 +1,8 @@
 package Champion;
 
-import Common.AllUnit;
 import Common.*;
-import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Bolibear extends Champion {
 
@@ -29,11 +28,6 @@ public class Bolibear extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -50,97 +44,36 @@ public class Bolibear extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
-
-    @Override
-    public void useSkill(AllUnit champion) {
         //볼리베어의 공격이 강화되어 여러 적에게 연쇄 피해를 입히고 적중 시 효과를 적용합니다.
         //최대 튕기는 횟수 : 2 / 3 / 4
         //연쇄 공격 피해량 증가율 : 0.8 / 0.9 / 1
-    }
 
     @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-        if (getGrade() == 1) { //1성일때
-            if (getMp() >= getMAX_MP()) {
-                champion1.setHp(champion1.getHp() -getPower() * 0.8);
-                champion2.setHp(champion2.getHp() -getPower() * 0.8);
+    public void useSkill(AllUnit[] target) {
 
-                champion1.setMp(champion1.getMp() + 20);
-                champion2.setMp(champion2.getMp() + 20);
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
 
-                setMp(0);
+        double deal = 0;
+        if (getMp() >= getMAX_MP()) {
 
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 천둥 발톱 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
+            if (getGrade() == 1) { //1성일때
+                deal = getPower() * 0.8;
             }
+            if (getGrade() == 2) { //1성일때
+                deal = getPower() * 0.9;
+            }
+            varietySkillActive.attackTwo(target, (int) deal);
+
+            setMp(0);
+
+            statusOutput.skillOutput("천둥 발톱");
+
         }
     }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-        if (getGrade() == 2) { //1성일때
-            if (getMp() >= getMAX_MP()) {
-                champion1.setHp(getHp() -getPower() * 0.9);
-                champion2.setHp(getHp() -getPower() * 0.9);
-                champion3.setHp(getHp() -getPower() * 0.9);
-
-
-                champion1.setMp(getMp() + 20);
-                champion2.setMp(getMp() + 20);
-                champion3.setMp(getMp() + 20);
-
-                setMp(0);
-
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 천둥 발톱 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
-            }
-        }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-        if (getGrade() == 3) { //1성일때
-            if (getMp() >= getMAX_MP()) {
-                champion1.setHp(getHp() -getPower());
-                champion2.setHp(getHp() -getPower());
-                champion3.setHp(getHp() -getPower());
-                champion4.setHp(getHp() -getPower());
-
-
-                champion1.setMp(getMp() + 20);
-                champion2.setMp(getMp() + 20);
-                champion3.setMp(getMp() + 20);
-                champion4.setMp(getMp() + 20);
-
-                setMp(0);
-
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 천둥 발톱 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
-            }
-        }
-    }
 
     @Override
     public void classSynergy(Deck deck) {

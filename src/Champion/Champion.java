@@ -2,7 +2,7 @@ package Champion;
 
 import Common.*;
 
-public abstract class Champion extends AllUnit implements SkillActive, ClassSynergy{
+public abstract class Champion extends AllUnit implements ClassSynergy, SkillActive{
     //캐릭터 추상클래스
 
     private String name;

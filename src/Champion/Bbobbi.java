@@ -4,6 +4,7 @@ import Common.AllUnit;
 import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Bbobbi extends Champion {
 
@@ -28,12 +29,6 @@ public class Bbobbi extends Champion {
         if (getMp() > getMAX_MP()) {
             setMp(getMAX_MP());
         }
-
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -50,90 +45,35 @@ public class Bbobbi extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
 
         //피해량 : 300 / 500 / 700
         //기절 지속시간 : 2 / 3 / 4
         //대상 수 : 1 / 2 / 3
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
+
+        int deal = 0;
+
         if (getMp() >= getMAX_MP()) {
+
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp() - 300);
-                champion.setMp(champion.getMp() + 20);
-
-                setMp(0);
-
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 수호자의 심판 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
+                deal = 300;
+                varietySkillActive.attackOne(target, deal);
             }
-        }
-    }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-        if (getGrade() == 2) { //2성일때
-            if (getMp() >= getMAX_MP()) {
-                champion1.setHp(champion1.getHp() - 500);
-                champion2.setHp(champion2.getHp() - 500);
-
-                champion1.setMp(champion1.getMp() + 20);
-                champion2.setMp(champion2.getMp() + 20);
-
-                setMp(0);
-
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 수호자의 심판 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
+            if (getGrade() == 2) { //2성일때
+                deal = 500;
+                varietySkillActive.attackTwo(target, deal);
             }
+
+            setMp(0);
+            statusOutput.skillOutput("수호자의 심판");
         }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-        if (getGrade() == 3) { //3성일떄
-
-            if (getMp() >= getMAX_MP()) {
-                champion1.setHp(champion1.getHp() - 700);
-                champion2.setHp(champion2.getHp() - 700);
-                champion3.setHp(champion3.getHp() - 700);
-
-                champion1.setMp(champion1.getMp() + 20);
-                champion2.setMp(champion2.getMp() + 20);
-                champion3.setMp(champion2.getMp() + 20);
-
-                setMp(0);
-
-                System.out.print(getName());
-                System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-                System.out.println("/ MP " + getMp() + " ]");
-                System.out.println("[Skill] 수호자의 심판 "); //150, 275, 400
-                System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-            } else {
-
-            }
-        }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
     }
 
     @Override

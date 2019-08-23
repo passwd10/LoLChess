@@ -1,11 +1,10 @@
 package Champion;
 
-import ChamClass.Assasin;
 import Common.*;
-import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
-public class Katarina extends Champion implements Assasin {
+public class Katarina extends Champion {
 
     public Katarina(String name, String chamClass, String tribe, int tier, int hp, int mp, int power, double attackSpeed, int armor, int gold, int grade) {
         super(name, chamClass, tribe, tier, hp, mp, power, attackSpeed, armor, gold, grade);
@@ -29,11 +28,6 @@ public class Katarina extends Champion implements Assasin {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -50,54 +44,35 @@ public class Katarina extends Champion implements Assasin {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         //카타리나가 2.5초 동안 정신 집중을 한 뒤 주변 적에게 단검을 던져 피해를 입히고 회복 효과를 감소시킵니다.
         //피해량 : 40 / 60 / 80
         //대상 수 : 4 / 6 / 8
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
 
+        int deal = 0;
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-160);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-360);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-460);
+                deal = 160;
             }
+            if (getGrade() == 2) { //2성일때
+                deal = 360;
+            }
+            if (getGrade() == 3) { //3성일떄
+                deal = 460;
+            }
+
+            varietySkillActive.attackAll(target, deal);
+
             setMp(0);
-            champion.setMp(champion.getMp() + 20);
 
-            System.out.print(getName());
-            System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-            System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 죽음의 연꽃 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
+            statusOutput.skillOutput("죽음의 연꽃");
         }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
     }
 
     @Override

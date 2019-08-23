@@ -5,6 +5,7 @@ import MyInfo.Deck;
 import MyInfo.Que;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Upgrade {
     //등급 업그레이드
@@ -88,7 +89,7 @@ public class Upgrade {
         int decksize = myDeck.deckSize();
         int quesize = myQue.queSize();
         int allSize = decksize + quesize; //덱과 대기열 전체 크기
-        ArrayList<Champion> myAllCham = new ArrayList<Champion>(); //덱과 대기열의 모든 챔피언
+        List<Champion> myAllCham = new ArrayList<Champion>(); //덱과 대기열의 모든 챔피언
 
         addDeckToAllCham(myAllCham, myDeck, decksize); //덱을 AllCham에 저장
         addQueToAllCham(myAllCham, myQue, quesize); //대기열을 AllCham에 저장
@@ -148,7 +149,7 @@ public class Upgrade {
         returnToQueDeck(myAllCham, myQue, myDeck); //대기열과 덱에 다시 챔피언 배분
     }
 
-    private void addSecondGrade(int i, String removeCham, ArrayList<Champion> myAllCham, int[] array1) {
+    private void addSecondGrade(int i, String removeCham, List<Champion> myAllCham, int[] array1) {
         //2성 챔피언 1개 추가
         for (int b = 0; b < 12; b++) {
             if (removeCham.equals(champions2[b].getName())) {
@@ -159,7 +160,7 @@ public class Upgrade {
         }
     }
 
-    private void deleteFirstGrade(int immsiSize, String removeCham, ArrayList<Champion> myAllCham, int removeCnt) {
+    private void deleteFirstGrade(int immsiSize, String removeCham, List<Champion> myAllCham, int removeCnt) {
         //관련 1성챔프 3개 삭제
 
         for (int a = 0; a < immsiSize; a++) {
@@ -175,7 +176,7 @@ public class Upgrade {
         }
     }
 
-    private void totalDuplicate(ArrayList<Champion> myAllCham, int[] array1, int[] array2, int allSize) {
+    private void totalDuplicate(List<Champion> myAllCham, int[] array1, int[] array2, int allSize) {
         //1성 2성 전체 중복검사
         for (int i = 0; i < allSize; i++) {
             //덱과 대기열 챔프 중복검사
@@ -189,7 +190,7 @@ public class Upgrade {
         }
     }
 
-    private void addQueToAllCham(ArrayList<Champion> myAllCham, Que myQue, int queSize) {
+    private void addQueToAllCham(List myAllCham, Que myQue, int queSize) {
         for (int j = 0; j < queSize; j++) {
             //대기열을 한곳에 저장
             myAllCham.add(myQue.returnQue(0));
@@ -197,7 +198,7 @@ public class Upgrade {
         }
     }
 
-    private void addDeckToAllCham(ArrayList<Champion> myAllCham, Deck myDeck, int deckSize) {
+    private void addDeckToAllCham(List<Champion> myAllCham, Deck myDeck, int deckSize) {
         for (int i = 0; i < deckSize; i++) {
             //덱을 한곳에 저장
             myAllCham.add(myDeck.retCham(0));
@@ -205,7 +206,7 @@ public class Upgrade {
         }
     }
 
-    private void duplicateDeckQue2(int i, ArrayList<Champion> myAllCham, int[] array2) {
+    private void duplicateDeckQue2(int i, List<Champion> myAllCham, int[] array2) {
         //2성인 경우
         for (int a = 0; a < i; a++) {
             if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
@@ -216,7 +217,7 @@ public class Upgrade {
 
     }
 
-    private void duplicateDeckQue1(int i, ArrayList<Champion> myAllCham, int[] array1) {
+    private void duplicateDeckQue1(int i, List<Champion> myAllCham, int[] array1) {
         //1성인 경우
         for (int a = 0; a < i; a++) {
             if (myAllCham.get(i).getName().equals(myAllCham.get(a).getName())) {
@@ -227,7 +228,7 @@ public class Upgrade {
 
     }
 
-    private void returnToQueDeck(ArrayList<Champion> myAllCham, Que myQue, Deck myDeck) {
+    private void returnToQueDeck(List<Champion> myAllCham, Que myQue, Deck myDeck) {
         //대기열과 덱에 다시 배분
         for (int i = 0; i < myAllCham.size(); i++) {
             if (myAllCham.size() < 9) {

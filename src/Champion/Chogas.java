@@ -59,46 +59,38 @@ public class Chogas extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         //초가스가 땅을 파열시켜 대상 지역에 있는 적 모두를 기절시키고 피해를 입힙니다.
         //피해량 : 200 / 400 / 600
         //띄워올리기 지속시간 : 1.5 / 1.75 / 2
 
+        int deal = 0;
+
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-200);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-400);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-600);
+                deal = 200;
             }
+            if (getGrade() == 2) { //2성일때
+                deal = 400;
+            }
+            if (getGrade() == 3) { //3성일떄
+                deal = 600;
+            }
+
+            target[0].setHp(target[0].getHp() - deal);
+            target[1].setHp(target[1].getHp() - deal);
+
             setMp(0);
-            champion.setMp(champion.getMp() + 20); //20씩 회복
+            target[0].setMp(target[0].getMp() + 20); //20씩 회복
+            target[1].setMp(target[1].getMp() + 20); //20씩 회복
 
             System.out.print(getName());
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
             System.out.println("/ MP " + getMp() + " ]");
             System.out.println("[Skill] 파열 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
         }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
     }
 
     @Override

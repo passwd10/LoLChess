@@ -3,6 +3,7 @@ package Champion;
 import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Modaekaiser extends Champion {
 
@@ -28,11 +29,6 @@ public class Modaekaiser extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -49,53 +45,43 @@ public class Modaekaiser extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         //모데카이저가 전방에 철퇴를 내리쳐 일직선상에 있는 적 두 명에게 피해를 입힙니다.
         //피해량 : 200 / 325 / 450
+
+        int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-200);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-325);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-450);
+                deal = 200;
             }
+            if (getGrade() == 2) { //2성일때
+                deal = 325;
+            }
+            if (getGrade() == 3) { //3성일떄
+                deal = 450;
+            }
+
+            while(target[targetNum].getHp() == 0) {
+                targetNum++;
+            }
+
+            target[targetNum].setHp(target[targetNum].getHp() - deal);
+            target[targetNum+1].setHp(target[targetNum+1].getHp() - deal);
+
             setMp(0);
-            champion.setMp(getMp() + 20);
 
-            System.out.print(getName());
-            System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-            System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 말살 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
+            target[targetNum].setMp(target[targetNum].getMp() + 20);
+            target[targetNum+1].setMp(target[targetNum+1].getMp() + 20);
 
+            StatusOutput statusOutput = new StatusOutput();
+            statusOutput.skillOutput("말 살");
         }
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
     }
 
     @Override

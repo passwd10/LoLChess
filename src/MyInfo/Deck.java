@@ -5,11 +5,12 @@ import Common.AllUnit;
 import Output.DeckOutput;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Deck extends MyInfo {
 
-    ArrayList<Champion> myDeck = new ArrayList(); //나의 챔피언 덱 목록
+    List<Champion> myDeck = new ArrayList(); //나의 챔피언 덱 목록
 
     Scanner sc = new Scanner(System.in);
 
@@ -32,11 +33,18 @@ public class Deck extends MyInfo {
         return fightCham;
     }
 
-    /*public AllUnit retCham(int i) {
-        //컴퓨터 덱에서 싸울 챔피언을 반환해줌
-        AllUnit fightCham = (AllUnit)myDeck.get(i);
-        return fightCham;
-    }*/
+
+    public AllUnit[] allUnits() {
+        //내 덱의 모든 유닛을 반환
+        AllUnit[] allmyDeck = new AllUnit[myDeck.size()];
+
+        for(int i=0; i<myDeck.size(); i++) {
+            allmyDeck[i] = myDeck.get(i);
+        }
+
+        return allmyDeck;
+    }
+
 
     public int deckSize() { //덱 사이즈
         return myDeck.size();

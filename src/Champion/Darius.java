@@ -4,6 +4,7 @@ import Common.AllUnit;
 import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Darius extends Champion {
 
@@ -29,11 +30,6 @@ public class Darius extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -50,58 +46,43 @@ public class Darius extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         //다리우스가 도끼를 휘둘러 주변 적에게 피해를 입히고 맞은 적의 수에 비례해 자신의 체력을 회복합니다.
         //피해량 : 150 / 200 / 250
         //회복 : 100 / 150 / 200
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
+
+        int deal = 0; //딜량
+        int heal = 0; //힐량
 
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setHp(champion.getHp()-150);
-                setHp(getHp() + 100);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setHp(champion.getHp()-200);
-                setHp(getHp() + 150);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setHp(champion.getHp()-250);
-                setHp(getHp() + 200);
+                deal = 150;
+                heal = 100;
             }
+            if (getGrade() == 2) { //2성일때
+                deal = 200;
+                heal = 150;
+            }
+            if (getGrade() == 3) { //3성일떄
+                deal = 250;
+                heal = 200;
+            }
+
+            varietySkillActive.attackTwo(target, deal);
+
+            setHp(getHp() + heal);
             setMp(0);
-            champion.setHp(champion.getHp() + 20);
 
-            System.out.print(getName());
-            System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-            System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 학살 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
+            statusOutput.skillOutput("학 살");
         }
     }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
-    }
 
     @Override
     public void classSynergy(Deck deck) {

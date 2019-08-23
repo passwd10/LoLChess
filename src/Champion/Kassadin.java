@@ -62,21 +62,24 @@ public class Kassadin extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit champion) {
+    public void useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
-                champion.setMp(champion.getMp()-20);
+                target[0].setMp(target[0].getMp()-20);
                 setHp(getHp()+20);
-            } else if (getGrade() == 2) { //2성일때
-                champion.setMp(champion.getMp()-40);
+            }
+            if (getGrade() == 2) { //2성일때
+                target[0].setMp(target[0].getMp()-40);
                 setHp(getHp()+40);
-            } else if (getGrade() == 3) { //3성일떄
-                champion.setMp(champion.getMp()-60);
+            }
+            if (getGrade() == 3) { //3성일떄
+                target[0].setMp(target[0].getMp()-60);
                 setHp(getHp()+60);
             }
-            if(champion.getMp() <= 0) {
-                champion.setMp(0);
+
+            if(target[0].getMp() <= 0) {
+                target[0].setMp(0);
             }
             setMp(0);
 
@@ -85,23 +88,8 @@ public class Kassadin extends Champion {
             System.out.println("/ MP " + getMp() + " ]");
             System.out.println("[Skill] 황천의 검 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-        } else {
-
         }
     }
 
-    @Override
-    public void useSkill(Champion champion1, Champion champion2) {
 
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3) {
-
-    }
-
-    @Override
-    public void useSkill(Champion champion1, Champion champion2, Champion champion3, Champion champion4) {
-
-    }
 }

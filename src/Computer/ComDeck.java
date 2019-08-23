@@ -9,16 +9,16 @@ import java.util.List;
 public class ComDeck {
     //컴퓨터의 라운드 별 덱
 
-    Monster[] monsters = new Monster[10]; //갖고있는 몬스터 목록
-    Champion[] champions = new Champion[42]; //갖고있는 챔피언 목록
-    Champion[] champions2 = new Champion[42]; //갖고있는 챔피언 목록
-    Champion[] champions3 = new Champion[42]; //갖고있는 챔피언 목록
+    AllUnit[] monsters = new Monster[10]; //갖고있는 몬스터 목록
+    AllUnit[] champions = new Champion[42]; //갖고있는 챔피언 목록
+    AllUnit[] champions2 = new Champion[42]; //갖고있는 챔피언 목록
+    AllUnit[] champions3 = new Champion[42]; //갖고있는 챔피언 목록
 
     List comDeck = new ArrayList<AllUnit>(); //컴퓨터 덱 목록
 
     public ComDeck() {
         //몇라운드인지 입력받음
-
+        
         monsters[0] = new Minion("근거리미니언1",477,0,12,1.25,0);
         monsters[1] = new Minion("근거리미니언2",477,0,12,1.25,0);
         monsters[2] = new Minion("원거리리미니언1",296,0,24,0.667,0);
@@ -108,8 +108,8 @@ public class ComDeck {
 
     public void chooseDeck(int roundNum) {
         if(roundNum == 1) { //1라운드 근거리1,2
-            comDeck.add(monsters[0]);
-            comDeck.add(monsters[1]);
+            comDeck.add((AllUnit)monsters[0]);
+            comDeck.add((AllUnit)monsters[1]);
         }
         if(roundNum == 2) { //2라운드 근거리 1,2 원거리1
             comDeck.add(monsters[0]);
@@ -123,13 +123,13 @@ public class ComDeck {
             comDeck.add(monsters[3]);
         }
         if(roundNum == 4) { //4라운드 카직스, 다리우스
-            comDeck.add(champions[0]);
             comDeck.add(champions[1]);
+            comDeck.add(champions[2]);
         }
         if(roundNum == 5) { //가렌, 모데카이져, 워윅
-            comDeck.add(champions[2]);
             comDeck.add(champions[3]);
             comDeck.add(champions[4]);
+            comDeck.add(champions[5]);
         }
         if(roundNum == 6) { //2성 1개 1성 2개
             comDeck.add(champions2[0]);
@@ -166,10 +166,21 @@ public class ComDeck {
         comDeck.clear();
     }
 
-    public AllUnit retCham(int i) {
+    public AllUnit retCham(int chamNum) {
         //컴퓨터 덱에서 싸울 챔피언을 반환해줌
-        AllUnit fightCham = (AllUnit)comDeck.get(i);
-        return fightCham;
+        AllUnit unit = (AllUnit)comDeck.get(chamNum);
+        return unit;
+    }
+
+    public AllUnit[] allUnits() {
+        //컴퓨터 덱의 모든 유닛을 반환
+        AllUnit[] allComDeck = new AllUnit[comDeck.size()];
+
+        for(int i=0; i<comDeck.size(); i++) {
+            allComDeck[i] = (AllUnit)comDeck.get(i);
+        }
+
+        return allComDeck;
     }
 
     public int deckSize() { //덱 사이즈

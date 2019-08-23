@@ -15,7 +15,13 @@ public class ProgressOutput {
         System.out.println("└──────────────────┘");
         System.out.println("   1. 이어하기(서비스 준비중)");
         System.out.println("   2. 새로하기");
-        int a = sc.nextInt();
+        int a = 2;
+        try{
+            a = sc.nextInt();
+
+        } catch (Exception e) {
+
+        }
         //새로하기
         System.out.println("아이디를 입력해주세요");
         String nickname = sc.next();
