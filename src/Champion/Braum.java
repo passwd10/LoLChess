@@ -63,7 +63,7 @@ public class Braum extends Champion  {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -81,6 +81,7 @@ public class Braum extends Champion  {
             System.out.println("[Skill] 불굴 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
         }
-    }
+        return 0;
 
+    }
 }

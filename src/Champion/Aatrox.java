@@ -63,7 +63,7 @@ public class Aatrox extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -82,6 +82,8 @@ public class Aatrox extends Champion {
             System.out.println("[Skill] 다르킨의 검 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
         }
+        return 0;
+
     }
 
 

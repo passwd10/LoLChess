@@ -4,6 +4,7 @@ import Common.AllUnit;
 import Common.*;
 import Common.BeAttackable;
 import MyInfo.Deck;
+import Output.*;
 
 public class Chogas extends Champion {
 
@@ -29,10 +30,6 @@ public class Chogas extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
 
     }
 
@@ -50,21 +47,20 @@ public class Chogas extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
 
     }
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //초가스가 땅을 파열시켜 대상 지역에 있는 적 모두를 기절시키고 피해를 입힙니다.
         //피해량 : 200 / 400 / 600
         //띄워올리기 지속시간 : 1.5 / 1.75 / 2
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
@@ -78,19 +74,13 @@ public class Chogas extends Champion {
                 deal = 600;
             }
 
-            target[0].setHp(target[0].getHp() - deal);
-            target[1].setHp(target[1].getHp() - deal);
+            targetNum = varietySkillActive.attackAll(target, deal);
 
             setMp(0);
-            target[0].setMp(target[0].getMp() + 20); //20씩 회복
-            target[1].setMp(target[1].getMp() + 20); //20씩 회복
-
-            System.out.print(getName());
-            System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
-            System.out.println("/ MP " + getMp() + " ]");
-            System.out.println("[Skill] 파열 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
+            statusOutput.skillOutput("파  멸");
+            return targetNum; //allCham
         }
+        return 0;
     }
 
     @Override
@@ -104,7 +94,7 @@ public class Chogas extends Champion {
         }
 
         if(cnt>=3 && cnt<6) {
-            System.out.println("■■■■ 초가스 싸움꾼 (초기)특성 발동 ■■■■\t [HP + 300]");
+            System.out.println("◎◎◎◎ 초가스 싸움꾼 (초기)특성 발동\t [HP + 300]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("초가스")){
                     deck.retCham(i).setHp(getHp() + 300); // 추가체력 300
@@ -112,7 +102,7 @@ public class Chogas extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■■ 초가스 싸움꾼 (최종)특성 발동 ■■■■\t [HP + 700]");
+            System.out.println("◎◎◎◎ 초가스 싸움꾼 (최종)특성 발동\t [HP + 700]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("초가스")){
                     deck.retCham(i).setHp(getHp() + 700); //추가체력 700

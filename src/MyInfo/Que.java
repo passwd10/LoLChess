@@ -30,8 +30,27 @@ public class Que extends MyInfo {
             System.out.println("   대기열이 가득 찼습니다.");
         } else {
             myQue.add(champion); //대기열에 추가
-            System.out.println("   "+champion.getName()+"을(를) 대기열에 넣었습니다.");
+            printAddQue(champion);
         }
+    }
+
+    private void printAddQue(Champion champion) {
+            if(champion.getName().length() == 2) {
+                System.out.println("\t    "+champion.getName()+"    를(을) 대기열에 넣었습니다.");
+            }
+            if(champion.getName().length() == 3) {
+                System.out.println("\t   "+champion.getName()+"   를(을) 대기열에 넣었습니다.");
+            }
+            if(champion.getName().length() == 4) {
+                System.out.println("\t  "+champion.getName()+"  를(을) 대기열에 넣었습니다.");
+            }
+            if(champion.getName().length() == 5) {
+                System.out.println("\t "+champion.getName()+" 를(을) 대기열에 넣었습니다.");
+            }
+            if(champion.getName().length() == 6) {
+                System.out.println("\t" + champion.getName()+"를(을) 대기열에 넣었습니다.");
+            }
+
     }
 
     public Champion returnQue(int i) {

@@ -49,7 +49,7 @@ public class Bbobbi extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
 
         //피해량 : 300 / 500 / 700
         //기절 지속시간 : 2 / 3 / 4
@@ -58,22 +58,27 @@ public class Bbobbi extends Champion {
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
                 deal = 300;
-                varietySkillActive.attackOne(target, deal);
+                targetNum = varietySkillActive.attackOne(target, deal);
+                setMp(0);
+                statusOutput.skillOutput("수호자의심판");
             }
 
             if (getGrade() == 2) { //2성일때
                 deal = 500;
-                varietySkillActive.attackTwo(target, deal);
+                targetNum = varietySkillActive.attackTwo(target, deal);
+                setMp(0);
+                statusOutput.skillOutput("수호자의심판");
             }
+            return targetNum;
 
-            setMp(0);
-            statusOutput.skillOutput("수호자의 심판");
         }
+        return 0;
     }
 
     @Override
@@ -87,14 +92,14 @@ public class Bbobbi extends Champion {
         }
 
         if(cnt>=2 && cnt<4) {
-            System.out.println("■■■■■ 뽀삐 기사 (초기)특성 발동 ■■■■\t [방 + 20]");
+            System.out.println("◎◎◎◎ 뽀삐 기사 (초기)특성 발동\t [방 + 20]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("뽀삐")){
                     deck.retCham(i).setArmor(getArmor() + 20); // 추가방어력 20
                 }
             }
         } else if(cnt>=4 && cnt<6) {
-            System.out.println("■■■■■ 뽀삐 기사 (중급)특성 발동 ■■■■\t [방 + 40]");
+            System.out.println("◎◎◎◎ 뽀삐 기사 (중급)특성 발동\t [방 + 40]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("뽀삐")){
                     deck.retCham(i).setArmor(getArmor() + 40); // 추가방어력 40
@@ -102,7 +107,7 @@ public class Bbobbi extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■■■ 뽀삐 기사 (최종)특성 발동 ■■■■\t [방 + 80]");
+            System.out.println("◎◎◎◎ 뽀삐 기사 (최종)특성 발동\t [방 + 80]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("뽀삐")){
                     deck.retCham(i).setArmor(getArmor() + 80); //추가방어력 80

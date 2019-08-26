@@ -48,9 +48,11 @@ public class Modaekaiser extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //모데카이저가 전방에 철퇴를 내리쳐 일직선상에 있는 적 두 명에게 피해를 입힙니다.
         //피해량 : 200 / 325 / 450
+        VarietySkillActive varietySkillActive = new VarietySkillActive();
+        StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
         int targetNum = 0;
@@ -70,18 +72,14 @@ public class Modaekaiser extends Champion {
             while(target[targetNum].getHp() == 0) {
                 targetNum++;
             }
-
-            target[targetNum].setHp(target[targetNum].getHp() - deal);
-            target[targetNum+1].setHp(target[targetNum+1].getHp() - deal);
+            targetNum = varietySkillActive.attackTwo(target,deal);
 
             setMp(0);
 
-            target[targetNum].setMp(target[targetNum].getMp() + 20);
-            target[targetNum+1].setMp(target[targetNum+1].getMp() + 20);
-
-            StatusOutput statusOutput = new StatusOutput();
-            statusOutput.skillOutput("말 살");
+            statusOutput.skillOutput("말  살");
+            return targetNum;
         }
+        return 0;
     }
 
     @Override
@@ -95,14 +93,14 @@ public class Modaekaiser extends Champion {
         }
 
         if(cnt>=2 && cnt<4) {
-            System.out.println("■■ 모데카이저 기사 (초기)특성 발동 ■■\t [방 + 20]");
+            System.out.println("◎◎◎◎ 모데카이저 기사 (초기)특성 발동\t [방 + 20]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("모데카이저")){
                     deck.retCham(i).setArmor(getArmor() + 20); // 추가방어력 20
                 }
             }
         } else if(cnt>=4 && cnt<6) {
-            System.out.println("■■■ 모데카이저 기사 (중기)특성 발동 ■■■\t [방 + 40]");
+            System.out.println("◎◎◎◎ 모데카이저 기사 (중기)특성 발동\t [방 + 40]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("모데카이저")){
                     deck.retCham(i).setArmor(getArmor() + 40); // 추가방어력 40
@@ -110,7 +108,7 @@ public class Modaekaiser extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■ 모데카이저 기사 (최종)특성 발동 ■■■\t [방 + 80]");
+            System.out.println("◎◎◎◎ 모데카이저 기사 (최종)특성 발동\t [방 + 80]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("모데카이저")){
                     deck.retCham(i).setArmor(getArmor() + 80); //추가방어력 80

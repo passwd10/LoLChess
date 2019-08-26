@@ -17,7 +17,25 @@ public class Deck extends MyInfo {
     public void addDeck(Champion champion) {
         //덱에 챔피언 저장하는 메소드
         myDeck.add(champion); //대기열에 추가
-        System.out.println(champion.getName() + "을(를) 덱에 넣었습니다.");
+        printAddDeck(champion);
+    }
+
+    private void printAddDeck(Champion champion) {
+        if(champion.getName().length() == 2) {
+            System.out.println("\t    "+champion.getName()+"    를(을) 덱에 넣었습니다.");
+        }
+        if(champion.getName().length() == 3) {
+            System.out.println("\t   "+champion.getName()+"   를(을) 덱에 넣었습니다.");
+        }
+        if(champion.getName().length() == 4) {
+            System.out.println("\t  "+champion.getName()+"  를(을) 덱에 넣었습니다.");
+        }
+        if(champion.getName().length() == 5) {
+            System.out.println("\t "+champion.getName()+" 를(을) 덱에 넣었습니다.");
+        }
+        if(champion.getName().length() == 6) {
+            System.out.println("\t" + champion.getName()+"를(을) 덱에 넣었습니다.");
+        }
     }
 
     public Champion deletDeck(int i) {

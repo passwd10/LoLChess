@@ -48,7 +48,7 @@ public class Lexai extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //렉사이가 잠시 매복 상태가 됩니다. 매복 상태에서는 대상으로 지정할 수 없으며 체력을 회복합니다. 렉사이가 매복을 풀고 나올 때 가장 가까운 적에게 피해를 입히고 1.75초 동안 공중으로 띄워 올립니다.
         //회복 : 150 / 300 / 450
         //피해량 : 200 / 350 / 500
@@ -56,6 +56,7 @@ public class Lexai extends Champion {
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
@@ -69,12 +70,14 @@ public class Lexai extends Champion {
                 deal = 500;
             }
 
-            varietySkillActive.attackOne(target,deal);
+            targetNum = varietySkillActive.attackOne(target,deal);
 
             setMp(0);
 
-            statusOutput.skillOutput("매 복");
+            statusOutput.skillOutput("매  복");
+            return targetNum;
         }
+        return 0;
     }
 
     @Override
@@ -88,7 +91,7 @@ public class Lexai extends Champion {
         }
 
         if(cnt>=3 && cnt<6) {
-            System.out.println("■■■■ 렉사이 싸움꾼 (초기)특성 발동 ■■■■\t [HP + 300]");
+            System.out.println("◎◎◎◎ 렉사이 싸움꾼 (초기)특성 발동\t [HP + 300]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("렉사이")){
                     deck.retCham(i).setHp(getHp() + 300); // 추가체력 300
@@ -96,7 +99,7 @@ public class Lexai extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■■ 렉사이 싸움꾼 (최종)특성 발동 ■■■■\t [HP + 700]");
+            System.out.println("◎◎◎◎ 렉사이 싸움꾼 (최종)특성 발동\t [HP + 700]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("렉사이")){
                     deck.retCham(i).setHp(getHp() + 700); //추가체력 700

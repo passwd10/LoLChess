@@ -21,8 +21,8 @@ public class ComDeck {
         
         monsters[0] = new Minion("근거리미니언1",477,0,12,1.25,0);
         monsters[1] = new Minion("근거리미니언2",477,0,12,1.25,0);
-        monsters[2] = new Minion("원거리리미니언1",296,0,24,0.667,0);
-        monsters[3] = new Minion("원거리리미니언2",296,0,24,0.667,0);
+        monsters[2] = new Minion("원거리미니언1",296,0,24,0.667,0);
+        monsters[3] = new Minion("원거리미니언2",296,0,24,0.667,0);
         monsters[4] = new Dragon("드래곤",3500,0,100,0.5,0);
 
         //챔피언
@@ -72,7 +72,7 @@ public class ComDeck {
         champions[34] = new Gangplank("갱플랭크(봇)","검사/총잡이","해적",3,700,100,55,0.65,20,3,1);
 
         // 4성 킨드레드 초가스 아칼리 세주아니 브랜드 레오나 드레이븐 나르
-        champions[35] = new Akali("아칼리(봇)", "암살자", "닌자", 4, 640, 25, 70, 2, 20, 4, 1);
+        champions[35] = new Akali("아칼리(봇)", "암살자", "닌자", 4, 640, 25, 70, 0.7, 20, 4, 1);
         champions[36] = new Chogas("초가스(봇)", "싸움꾼", "공허", 4, 1000, 150, 70, 0.55, 20, 4, 1);
         champions[37] = new Sejuani("세주아니(봇)","기사","빙하",4,850,150,45,0.55,40,4,1);
         champions[38] = new Brand("브랜드(봇)","원소술사","악마",4,700,125,60,0.6,25,4,1);
@@ -108,8 +108,10 @@ public class ComDeck {
 
     public void chooseDeck(int roundNum) {
         if(roundNum == 1) { //1라운드 근거리1,2
-            comDeck.add((AllUnit)monsters[0]);
-            comDeck.add((AllUnit)monsters[1]);
+            comDeck.add(champions[2]);
+            comDeck.add(champions[1]);
+            /*comDeck.add((AllUnit)monsters[0]);
+            comDeck.add((AllUnit)monsters[1]);*/
         }
         if(roundNum == 2) { //2라운드 근거리 1,2 원거리1
             comDeck.add(monsters[0]);
@@ -133,20 +135,20 @@ public class ComDeck {
         }
         if(roundNum == 6) { //2성 1개 1성 2개
             comDeck.add(champions2[0]);
-            comDeck.add(champions[10]);
-            comDeck.add(champions[12]);
+            comDeck.add(champions[4]);
+            comDeck.add(champions[5]);
         }
         if(roundNum == 7) { //2성 2개 1성 2개
             comDeck.add(champions2[0]);
             comDeck.add(champions2[1]);
-            comDeck.add(champions[7]);
-            comDeck.add(champions[8]);
+            comDeck.add(champions[13]);
+            comDeck.add(champions[14]);
         }
         if(roundNum == 8) { //2성 3개 1성 1개
             comDeck.add(champions2[0]);
             comDeck.add(champions2[1]);
             comDeck.add(champions2[2]);
-            comDeck.add(champions[8]);
+            comDeck.add(champions[24]);
         }
         if(roundNum == 9) {  //3성 1개 2성 2개 1성2개
             comDeck.add(champions3[0]);
@@ -154,7 +156,7 @@ public class ComDeck {
             comDeck.add(champions3[2]);
             comDeck.add(champions2[3]);
             comDeck.add(champions2[4]);
-            comDeck.add(champions[10]);
+            comDeck.add(champions[152]);
         }
         if(roundNum == 10) { //용
             comDeck.add(monsters[4]);

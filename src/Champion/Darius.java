@@ -49,7 +49,7 @@ public class Darius extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //다리우스가 도끼를 휘둘러 주변 적에게 피해를 입히고 맞은 적의 수에 비례해 자신의 체력을 회복합니다.
         //피해량 : 150 / 200 / 250
         //회복 : 100 / 150 / 200
@@ -58,6 +58,7 @@ public class Darius extends Champion {
 
         int deal = 0; //딜량
         int heal = 0; //힐량
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
@@ -74,13 +75,16 @@ public class Darius extends Champion {
                 heal = 200;
             }
 
-            varietySkillActive.attackTwo(target, deal);
+            targetNum = varietySkillActive.attackTwo(target, deal);
 
             setHp(getHp() + heal);
             setMp(0);
 
-            statusOutput.skillOutput("학 살");
+            statusOutput.skillOutput("학  살");
+
+            return targetNum;
         }
+        return 0;
     }
 
 
@@ -95,14 +99,14 @@ public class Darius extends Champion {
         }
 
         if(cnt>=2 && cnt<4) {
-            System.out.println("■■■ 다리우스 기사 (초기)특성 발동 ■■■\t [방 + 20]");
+            System.out.println("◎◎◎◎ 다리우스 기사 (초기)특성 발동\t [방 + 20]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("다리우스")){
                     deck.retCham(i).setArmor(getArmor() + 20); // 추가방어력 20
                 }
             }
         } else if(cnt>=4 && cnt<6) {
-            System.out.println("■■■ 다리우스 기사 (중급)특성 발동 ■■■\t [방 + 40]");
+            System.out.println("◎◎◎◎ 다리우스 기사 (중급)특성 발동\t [방 + 40]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("다리우스")){
                     deck.retCham(i).setArmor(getArmor() + 40); // 추가방어력 40
@@ -110,7 +114,7 @@ public class Darius extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■ 다리우스 기사 (최종)특성 발동 ■■■\t [방 + 80]");
+            System.out.println("◎◎◎◎ 다리우스 기사 (최종)특성 발동\t [방 + 80]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("다리우스")){
                     deck.retCham(i).setArmor(getArmor() + 80); //추가방어력 80

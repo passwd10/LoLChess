@@ -50,31 +50,39 @@ public class Warwick extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //워윅이 가장 체력이 낮은 적에게 달려들어 1.5초 동안 기절시키고 피해를 입히며 자신의 체력을 회복합니다. 적중 시 효과가 적용됩니다.
         //피해량 : 150 / 225 / 300
         VarietySkillActive varietySkillActive = new VarietySkillActive();
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0; //데미지
-
+        int heal = 0; //힐
+        int targetNum = 0;
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
                 deal = 150;
+                heal = 50;
             }
             if (getGrade() == 2) { //2성일때
                 deal = 225;
+                heal = 100;
             }
             if (getGrade() == 3) { //3성일떄
                 deal = 300;
+                heal = 150;
             }
 
-            varietySkillActive.attackOne(target, deal);
+            targetNum = varietySkillActive.attackOne(target, deal);
+
+            setHp(getHp() + heal);
             setMp(0); //내 mp 0
 
-            statusOutput.skillOutput("무한의 구속");
+            statusOutput.skillOutput("무한의구속");
+            return targetNum;
         }
+        return 0;
     }
 
 
@@ -89,7 +97,7 @@ public class Warwick extends Champion {
         }
 
         if(cnt>=3 && cnt<6) {
-            System.out.println("■■■■■ 워윅 싸움꾼 (초기)특성 발동 ■■■■\t [HP + 300]");
+            System.out.println("◎◎◎◎ 워윅 싸움꾼 (초기)특성 발동\t [HP + 300]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("워윅")){
                     deck.retCham(i).setHp(getHp() + 300); // 추가체력 300
@@ -97,7 +105,7 @@ public class Warwick extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■■■ 워윅 싸움꾼 (최종)특성 발동 ■■■■\t [HP + 700]");
+            System.out.println("◎◎◎◎ 워윅 싸움꾼 (최종)특성 발동\t [HP + 700]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("워윅")){
                     deck.retCham(i).setHp(getHp() + 700); //추가체력 700

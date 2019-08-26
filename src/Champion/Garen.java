@@ -49,13 +49,14 @@ public class Garen extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //가렌이 4초 동안 검을 들고 회전하며 마법 피해에 면역 상태가 되고 주변 적에게 피해를 입힙니다.
         //틱당 피해량 : 40 / 65 / 90
         VarietySkillActive varietySkillActive = new VarietySkillActive();
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
@@ -69,12 +70,15 @@ public class Garen extends Champion {
                 deal = 360;
             }
 
-            varietySkillActive.attackTwo(target, deal);
+            targetNum = varietySkillActive.attackTwo(target, deal);
 
             setMp(0);
 
-            statusOutput.skillOutput("심 판");
+            statusOutput.skillOutput("심  판");
+
+            return targetNum;
         }
+        return 0;
     }
 
     @Override
@@ -88,14 +92,14 @@ public class Garen extends Champion {
         }
 
         if(cnt>=2 && cnt<4) {
-            System.out.println("■■■■■ 가렌 기사 특성 발동(초기) ■■■■\t [방 + 20]");
+            System.out.println("◎◎◎◎ 가렌 기사 특성 발동(초기)\t [방 + 20]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("가렌")){
                     deck.retCham(i).setArmor(getArmor() + 20); // 추가방어력 20
                 }
             }
         } else if(cnt>=4 && cnt<6) {
-            System.out.println("■■■■■ 가렌 기사 특성 발동(중급) ■■■■\t [방 + 40]");
+            System.out.println("◎◎◎◎ 가렌 기사 특성 발동(중급)\t [방 + 40]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("가렌")){
                     deck.retCham(i).setArmor(getArmor() + 40); // 추가방어력 40
@@ -103,7 +107,7 @@ public class Garen extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■■■ 가렌 기사 특성 발동(최종) ■■■■\t [방 + 80]");
+            System.out.println("◎◎◎◎ 가렌 기사 특성 발동(최종)\t [방 + 80]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("가렌")){
                     deck.retCham(i).setArmor(getArmor() + 80); //추가방어력 80

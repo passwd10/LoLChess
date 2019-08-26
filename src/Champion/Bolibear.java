@@ -51,12 +51,14 @@ public class Bolibear extends Champion {
         //연쇄 공격 피해량 증가율 : 0.8 / 0.9 / 1
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
 
         VarietySkillActive varietySkillActive = new VarietySkillActive();
         StatusOutput statusOutput = new StatusOutput();
 
         double deal = 0;
+        int targetNum = 0;
+
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -65,13 +67,14 @@ public class Bolibear extends Champion {
             if (getGrade() == 2) { //1성일때
                 deal = getPower() * 0.9;
             }
-            varietySkillActive.attackTwo(target, (int) deal);
+            targetNum = varietySkillActive.attackTwo(target, (int) deal);
 
             setMp(0);
 
             statusOutput.skillOutput("천둥 발톱");
-
+            return targetNum;
         }
+        return 0;
     }
 
 
@@ -86,7 +89,7 @@ public class Bolibear extends Champion {
         }
 
         if(cnt>=3 && cnt<6) {
-            System.out.println("■■■ 볼리베어 싸움꾼 (초기)특성 발동 ■■■■\t [HP + 300]");
+            System.out.println("◎◎◎◎ 볼리베어 싸움꾼 (초기)특성 발동\t [HP + 300]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("볼리베어")){
                     deck.retCham(i).setHp(getHp() + 300); // 추가체력 300
@@ -94,7 +97,7 @@ public class Bolibear extends Champion {
             }
         }
         else if(cnt >= 6) {
-            System.out.println("■■■ 볼리베어 싸움꾼 (최종)특성 발동 ■■■■\t [HP + 700]");
+            System.out.println("◎◎◎◎ 볼리베어 싸움꾼 (최종)특성 발동\t [HP + 700]");
             for(int i=0; i<deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("볼리베어")){
                     deck.retCham(i).setHp(getHp() + 700); // 추가체력 700

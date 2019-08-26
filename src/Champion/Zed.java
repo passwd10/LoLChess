@@ -48,13 +48,14 @@ public class Zed extends Champion {
 
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //제드가 표창을 던져 일직선상의 적에게 피해를 입힙니다.
         //피해량 : 200 / 300 / 400
         VarietySkillActive varietySkillActive = new VarietySkillActive();
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() >= getMAX_MP()) {
 
@@ -68,12 +69,14 @@ public class Zed extends Champion {
                 deal = 400;
             }
 
-            varietySkillActive.attackOne(target,deal);
+            targetNum = varietySkillActive.attackOne(target,deal);
 
             setMp(0);
 
-            statusOutput.skillOutput("예리한 표창");
+            statusOutput.skillOutput("예리한표창");
+            return targetNum;
         }
+        return 0;
     }
 
     @Override
@@ -87,14 +90,14 @@ public class Zed extends Champion {
         }
 
         if (cnt >= 3 && cnt < 6) {
-            System.out.println("■■■■■ 제드 암살자 (초기)특성 발동 ■■■■■\t [공 x 1.5]");
+            System.out.println("◎◎◎◎ 제드 암살자 (초기)특성 발동\t [공 x 1.5]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("제드")){
                     deck.retCham(i).setPower(getPower()*1.5);
                 }
             }
         } else if (cnt >= 6) {
-            System.out.println("■■■■■ 제드 암살자 (최종)특성 발동 ■■■■■\t [공 x 3.0]");
+            System.out.println("◎◎◎◎ 제드 암살자 (최종)특성 발동\t [공 x 3.0]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("제드")){
                     deck.retCham(i).setPower(getPower()*3.0);

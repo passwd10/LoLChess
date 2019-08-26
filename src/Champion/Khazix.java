@@ -49,7 +49,7 @@ public class Khazix extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //카직스가 가장 가까운 적을 베어 피해를 입힙니다. 고립된 적은 추가 피해를 입습니다.
         //피해량 : 150 / 300 / 450
         //고립 피해량 : 400 / 600 / 800
@@ -57,6 +57,7 @@ public class Khazix extends Champion {
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
 
         if (getMp() == getMAX_MP()) {
 
@@ -70,11 +71,13 @@ public class Khazix extends Champion {
                 deal = 800;
             }
 
-            varietySkillActive.attackOne(target, deal);
+            targetNum = varietySkillActive.attackOne(target, deal);
             setMp(0);
 
-            statusOutput.skillOutput("공포 감지");
+            statusOutput.skillOutput("공포감지");
+            return targetNum;
         }
+        return 0;
     }
 
 
@@ -90,14 +93,14 @@ public class Khazix extends Champion {
         }
 
         if (cnt >= 3 && cnt < 6) {
-            System.out.println("■■■■ 카직스 암살자 (초기)특성 발동 ■■■■\t [공 X 1.5]");
+            System.out.println("◎◎◎◎ 카직스 암살자 (초기)특성 발동\t [공 X 1.5]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("카직스")){
                     deck.retCham(i).setPower(getPower()*1.5);
                 }
             }
         } else if (cnt >= 6) {
-            System.out.println("■■■■ 카직스 암살자 (최종)특성 발동 ■■■■\t [공 X 3.0]");
+            System.out.println("◎◎◎◎ 카직스 암살자 (최종)특성 발동\t [공 X 3.0]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("카직스")){
                     deck.retCham(i).setPower(getPower()*3.0);

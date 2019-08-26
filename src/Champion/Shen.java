@@ -28,11 +28,6 @@ public class Shen extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -49,11 +44,6 @@ public class Shen extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
     @Override
@@ -62,8 +52,8 @@ public class Shen extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
-
+    public int useSkill(AllUnit[] target) {
+        return 0;
     }
 
 

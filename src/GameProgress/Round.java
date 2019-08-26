@@ -159,9 +159,11 @@ public class Round {
             comDeck.retCham(i).setMp(0); //마나 초기화
         }
 
-        System.out.println(roundNum + " 라운드를 시작하겠습니다.");
-
         comAppeared(comDeck); //컴퓨터 챔피언이 뭐가 나오나?
+
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
+                " " + roundNum + " 라운드를 시작합니다" +
+                " ━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
 
         this.gameOver = 1;
         this.mRest = 0; //처치당한 내 챔피언
@@ -171,60 +173,41 @@ public class Round {
 
         isSynergy(myDeck); //시너지 확인
 
-        //while (gameOver == 1) {
-            /*
-            long end = System.currentTimeMillis(); //종료 시간
-            if ((end - start) / 1000 >= 30) {
-                System.out.println("시간 초과");
-                System.out.println(" 무승부 ");
-                break;
-            }*/
 
-        // playerAttack(myDeck, comDeck, statusOutput); //내 공격시
-        PlayerAttackThread[] attackThreads = new PlayerAttackThread[myDeck.deckSize()]; //내 덱챔피언들 쓰레드
-        BotAttackThread[] botAttackThreads = new BotAttackThread[comDeck.deckSize()]; //봇 챔피언 쓰레드
+        /*long end = System.currentTimeMillis(); //종료 시간
+        if ((end - start) / 1000 >= 30) {
+            System.out.println("시간 초과");
+            System.out.println(" 무승부 ");
 
-        Thread[] player = new Thread[myDeck.deckSize()];
-        Thread[] bot = new Thread[comDeck.deckSize()];
+        }*/
 
-        for(int i=0; i<myDeck.deckSize(); i++) {
-            attackThreads[i] = new PlayerAttackThread(myDeck, comDeck, statusOutput, this.bRest, i);
-            player[i] = new Thread(attackThreads[i]);
-            player[i].start(); //내 덱챔피언 공격 시작
+        attackThread(myDeck, comDeck, statusOutput, bRest, mRest); //공격 쓰레드
+
+        int myCnt = 0;
+        int botCnt = 0;
+        for(int i=0; i<comDeck.deckSize(); i++) {
+            if(comDeck.retCham(i).getHp() == 0) {
+                botCnt++;
+            }
         }
 
-        for(int j=0; j<comDeck.deckSize(); j++) {
-            botAttackThreads[j] = new BotAttackThread(myDeck, comDeck, statusOutput, this.mRest, j);
-            bot[j] = new Thread(botAttackThreads[j]);
-            bot[j].start(); //상대 챔피언 공격 시작
+        for(int j=0; j<myDeck.deckSize(); j++) {
+            if(myDeck.retCham(j).getHp() == 0) {
+                myCnt++;
+            }
         }
 
-
-        try{
-            for(int i=0; i<myDeck.deckSize(); i++) {
-                player[i].join();
-            }
-            for(int j=0; j<comDeck.deckSize(); j++) {
-                bot[j].join();
-            }
-        }catch (InterruptedException e){}
-
-
-        //botAttack(myDeck, comDeck, statusOutput); //컴퓨터 공격시
-        //}
-
-       for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 Hp,Mp 초기화
+        for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 Hp,Mp 초기화
             comDeck.retCham(a).setHp(comDeck.retCham(a).getMAX_HP());
             comDeck.retCham(a).setMp(comDeck.retCham(a).getMAX_MP());
         }
 
-
-        if (this.bRest == comDeck.deckSize()-1) { //봇 유닛을 모두 처치했으면
+        if(botCnt == comDeck.deckSize()) {
             comDeck.clearDeck(); //컴퓨터 덱 초기화
             return VICTORY; //승리
         }
 
-        if (this.mRest == myDeck.deckSize()-1) { //내 유닛이 모두 처치당했으면
+        if(myCnt == myDeck.deckSize()) {
             comDeck.clearDeck(); //컴퓨터 덱 초기화
             return DEFEAT; //패배
         }
@@ -233,128 +216,72 @@ public class Round {
         return 2; //무승부
     }
 
+    private void attackThread(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput, int bRest, int mRest) {
 
+        PlayerAttackThread[] attackThreads = new PlayerAttackThread[myDeck.deckSize()]; //내 덱챔피언들 쓰레드
+        BotAttackThread[] botAttackThreads = new BotAttackThread[comDeck.deckSize()]; //봇 챔피언 쓰레드
 
-    private synchronized void myAttack(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput) {
-        int deckNum = 0;
-        Thread playerAttack = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (comDeck.retCham(bRest).getHp() > 0) { //상대 hp가 0이상이면 계속 때림
-                    synchronized (this) {
-                        statusOutput.attackerStatus(myDeck.retCham(deckNum)); //내 상태
-                        System.out.print(" -> ");
-                        //myDeck.retCham(deckNum).attack(comDeck.retCham(bRest));
-                        comDeck.retCham(bRest).beAttacked(myDeck.retCham(deckNum));
-                        statusOutput.beAttackerStatus(comDeck.retCham(bRest)); //컴퓨터 상태
-                        System.out.println();
-                    }
-                    try {
-                        Thread.sleep(1499);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+        Thread[] player = new Thread[myDeck.deckSize()];
+        Thread[] bot = new Thread[comDeck.deckSize()];
 
-    }
-
-
-    private void playerAttack(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput) {
-        //내 공격
-        for (int deckNum = 0; deckNum < myDeck.deckSize(); deckNum++) {
-
-            if (isDown(myDeck, deckNum) == NOT_DOWN && gameOver == GAME_CONTINUE) { //체력이 0인가? 0이면 Down
-
-                statusOutput.attackerStatus(myDeck.retCham(deckNum)); //내 상태
-                isMaxMp(myDeck, deckNum, comDeck); // mp가 꽉 차면 스킬 사용
-                System.out.print(" -> ");
-                comDeck.retCham(this.bRest).beAttacked(myDeck.retCham(deckNum)); //컴퓨터가 나한테 맞음
-                statusOutput.beAttackerStatus(comDeck.retCham(this.bRest)); //컴퓨터 상태
-                System.out.println();
-
-                gameOver = isGameOver(comDeck); //게임이 끝났는지 판단
-
-            }
+        for (int i = 0; i < myDeck.deckSize(); i++) {
+            attackThreads[i] = new PlayerAttackThread(myDeck, comDeck, statusOutput, bRest, i);
+            player[i] = new Thread(attackThreads[i]);
+            player[i].start(); //내 덱챔피언 공격 시작
         }
-    }
 
-    private synchronized void comAttack(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput) {
-        int comDeckNum = 0;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (myDeck.retCham(mRest).getHp() > 0) { //내 hp가 0이상이면 컴퓨터가 계속 때림
-                    synchronized (this) {
-                        statusOutput.attackerStatus(comDeck.retCham(comDeckNum)); //내 상태
-                        System.out.print(" -> ");
-                        myDeck.retCham(mRest).beAttacked(comDeck.retCham(comDeckNum));
-                        statusOutput.beAttackerStatus(myDeck.retCham(mRest)); //컴퓨터 상태
-                        System.out.println();
-                    }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+        for (int j = 0; j < comDeck.deckSize(); j++) {
+            botAttackThreads[j] = new BotAttackThread(myDeck, comDeck, statusOutput, mRest, j);
+            bot[j] = new Thread(botAttackThreads[j]);
+            bot[j].start(); //상대 챔피언 공격 시작
+        }
+
+        try {
+            for (int i = 0; i < myDeck.deckSize(); i++) {
+                player[i].join();
             }
-        }).start();
-
-    }
-
-    private void botAttack(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput) {
-        //컴퓨터 공격
-        for (int comDeckNum = 0; comDeckNum < comDeck.deckSize(); comDeckNum++) {
-
-            if (isDownCom(comDeck, comDeckNum) == NOT_DOWN && gameOver == GAME_CONTINUE) {
-
-                statusOutput.attackerStatus(comDeck.retCham(comDeckNum)); //컴퓨터 상태 출력
-                isMaxMpCom(myDeck, comDeckNum, comDeck); // Computer mp가 꽉 차면 스킬 사용
-                System.out.print(" -> ");
-                myDeck.retCham(this.mRest).beAttacked(comDeck.retCham(comDeckNum)); //내가 컴퓨터에게 맞음
-                statusOutput.beAttackerStatus(myDeck.retCham(this.mRest)); //내 상태 출력
-                System.out.println();
-
-                gameOver = isGameOverCom(myDeck);
-
+            for (int j = 0; j < comDeck.deckSize(); j++) {
+                bot[j].join();
             }
+        } catch (InterruptedException e) {
         }
     }
 
 
     private void comAppeared(ComDeck comDeck) { //출현하는 봇챔피언 출력
+        System.out.print("\t");
         for (int i = 0; i < comDeck.deckSize(); i++) {
             System.out.print(comDeck.retCham(i).getName() + " ");
         }
 
-        System.out.println("가 출현합니다.\n");
+        System.out.print("가 출현합니다.");
 
-    }
 
-    private int isDownCom(ComDeck comDeck, int b) { //컴퓨터가 DOWN 됐나?
-        if (comDeck.retCham(b).getHp() == 0) {
-            //공격하는 봇이 죽으면
-            System.out.println(comDeck.retCham(b).getName() + " [ Down ]");
-            return DOWN;
+        System.out.println("\t3 초후 시작합니다");
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\uD83D\uDD52  THREE ");
+        try {
+            Thread.sleep(1000); //3초 대기
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return NOT_DOWN;
-    }
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\uD83D\uDD51   TWO ");
 
-    private int isDown(Deck myDeck, int a) { //내 챔피언이 DOWN 됐나?
-        if (myDeck.retCham(a).getHp() == 0) { //체력 0이면 Down
-            System.out.println(myDeck.retCham(a).getName() + " [ Down ]");
-            return DOWN; //Down
+        try {
+            Thread.sleep(1000); //3초 대기
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return NOT_DOWN; //진행
+        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\uD83D\uDD50   ONE ");
+        try {
+            Thread.sleep(1000); //3초 대기
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void isMaxMp(Deck myDeck, int deckNum, ComDeck comDeck) {
-
         myDeck.retCham(deckNum).useSkill(comDeck.allUnits()); //스킬
         myDeck.retCham(deckNum).attack(comDeck.retCham(this.bRest)); //평타
-
     }
 
     private void isMaxMpCom(Deck myDeck, int b, ComDeck comDeck) {

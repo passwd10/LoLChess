@@ -27,12 +27,6 @@ public class Graves extends Champion {
         if (getMp() > getMAX_MP()) {
             setMp(getMAX_MP());
         }
-
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp())+" "); //때린놈의 상태
-        System.out.println("/ MP " + getMp() +" ]");
-        System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
-
     }
 
     @Override
@@ -49,11 +43,6 @@ public class Graves extends Champion {
             setMp(getMAX_MP());
         }
 
-        System.out.print(getName());
-        System.out.print(" [ HP " + Math.round(getHp()) + " "); //맞은놈의 상태
-        System.out.println("/ MP " + getMp() + " ]");
-        System.out.println();
-
     }
 
     @Override
@@ -62,7 +51,7 @@ public class Graves extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -81,8 +70,9 @@ public class Graves extends Champion {
             System.out.print(" [ HP " + Math.round(getHp()) + " "); //스킬 사용한 놈의 상태
             System.out.println("/ MP " + getMp() + " ]");
             System.out.println("[Skill] 산탄 사격 "); //150, 275, 400
-            System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
+
         }
+        return 0;
     }
 
 }

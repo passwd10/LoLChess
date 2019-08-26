@@ -63,7 +63,7 @@ public class Ahri extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -82,6 +82,7 @@ public class Ahri extends Champion {
             System.out.println("[Skill] 현혹의 구슬 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
         }
+        return 1;
     }
 
 }

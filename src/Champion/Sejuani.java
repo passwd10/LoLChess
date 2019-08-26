@@ -61,8 +61,9 @@ public class Sejuani extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
 
+        return 0;
     }
 
 

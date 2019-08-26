@@ -63,7 +63,7 @@ public class Evelynn extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -84,6 +84,7 @@ public class Evelynn extends Champion {
             System.out.println("[Skill] 최후의 포옹 "); //150, 275, 400
             System.out.println("↓↓↓↓↓↓↓↓↓↓↓↓");
         }
+        return 0;
     }
 
 

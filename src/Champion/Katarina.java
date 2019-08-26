@@ -47,7 +47,7 @@ public class Katarina extends Champion {
     }
 
     @Override
-    public void useSkill(AllUnit[] target) {
+    public int useSkill(AllUnit[] target) {
         //카타리나가 2.5초 동안 정신 집중을 한 뒤 주변 적에게 단검을 던져 피해를 입히고 회복 효과를 감소시킵니다.
         //피해량 : 40 / 60 / 80
         //대상 수 : 4 / 6 / 8
@@ -55,6 +55,8 @@ public class Katarina extends Champion {
         StatusOutput statusOutput = new StatusOutput();
 
         int deal = 0;
+        int targetNum = 0;
+
         if (getMp() >= getMAX_MP()) {
 
             if (getGrade() == 1) { //1성일때
@@ -67,12 +69,14 @@ public class Katarina extends Champion {
                 deal = 460;
             }
 
-            varietySkillActive.attackAll(target, deal);
+            targetNum = varietySkillActive.attackAll(target, deal);
 
             setMp(0);
 
-            statusOutput.skillOutput("죽음의 연꽃");
+            statusOutput.skillOutput("죽음의연꽃");
+            return targetNum; //allCham
         }
+        return 0;
     }
 
     @Override
@@ -86,14 +90,14 @@ public class Katarina extends Champion {
         }
 
         if (cnt >= 3 && cnt < 6) {
-            System.out.println("■■■ 카타리나 암살자 (초기)특성 발동 ■■■■\t [공 x 1.5]");
+            System.out.println("◎◎◎◎ 카타리나 암살자 (초기)특성 발동\t [공 x 1.5]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("카타리나")){
                     deck.retCham(i).setPower(getPower()*1.5);
                 }
             }
         } else if (cnt >= 6) {
-            System.out.println("■■■ 카타리나 암살자 (최종)특성 발동 ■■■■\t [공 x 3.0]");
+            System.out.println("◎◎◎◎ 카타리나 암살자 (최종)특성 발동\t [공 x 3.0]");
             for (int i = 0; i < deck.deckSize(); i++) {
                 if(deck.retCham(i).getName().equals("카타리나")){
                     deck.retCham(i).setPower(getPower()*3.0);
