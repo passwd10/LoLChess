@@ -69,7 +69,7 @@ public class Zed extends Champion {
                 deal = 400;
             }
 
-            targetNum = varietySkillActive.attackOne(target,deal);
+            targetNum = varietySkillActive.attackOne(target,deal,0);
 
             setMp(0);
 

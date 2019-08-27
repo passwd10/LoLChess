@@ -71,7 +71,7 @@ public class Khazix extends Champion {
                 deal = 800;
             }
 
-            targetNum = varietySkillActive.attackOne(target, deal);
+            targetNum = varietySkillActive.attackOne(target, deal,0);
             setMp(0);
 
             statusOutput.skillOutput("공포감지");

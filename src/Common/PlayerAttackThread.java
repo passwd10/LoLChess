@@ -30,11 +30,11 @@ public class PlayerAttackThread implements Runnable {
 
     @Override
     public void run() {
+
         attackSpeed = 100 * myDeck.retCham(deckNum).getAttackSpeed();
         attackTime = 100000 / (int) attackSpeed;
         while (this.bRest < comDeck.deckSize() &&comDeck.retCham(this.bRest).getHp() > 0 && myDeck.retCham(deckNum).getHp() > 0) {
             //상대 hp가 0이상이면 계속 때림
-
             try {
                 synchronized (java.lang.Object.class) { //동기화
                     if(myDeck.retCham(deckNum).getMp() == myDeck.retCham(deckNum).getMAX_MP()) {
@@ -59,18 +59,20 @@ public class PlayerAttackThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
     }
     private void skill(StatusOutput statusOutput, Deck myDeck, ComDeck comDeck,int deckNum, int bRest) {
         int targetNum = 0;
         System.out.print("[ Player ]");
         statusOutput.attackerStatus(myDeck.retCham(deckNum)); //내 상태
-        System.out.print("\t──\uD83D\uDCA5");
         targetNum = myDeck.retCham(deckNum).useSkill(comDeck.allUnits()); //스킬발동
-        System.out.print("\uD83D\uDCA5─→\t");
-        for(int i=0; i<targetNum; i++) {
-            statusOutput.beAttackerStatus(comDeck.retCham(bRest+i)); //컴퓨터 상태
+        if(targetNum == 1) {
+            statusOutput.beAttackerStatus(comDeck.retCham(bRest));
+        }
+        if(targetNum > 1) {
+            for (int i = 0; i < targetNum; i++) {
+                statusOutput.beAttackedSkillStatus(comDeck.retCham(bRest + i)); //컴퓨터 상태
+            }
         }
         System.out.println();
 
@@ -100,8 +102,10 @@ public class PlayerAttackThread implements Runnable {
 
     private synchronized int isDown(Deck myDeck, int deckNum) { //내 챔피언이 DOWN 됐나?
         if (myDeck.retCham(deckNum).getHp() == 0) { //체력 0이면 Down
-            System.out.print("[ Player ]\t");
-            System.out.println(myDeck.retCham(deckNum).getName() + "\t[ Down ]☠️☠️☠️");
+            synchronized (java.lang.Object.class) { //동기화
+                System.out.print("[ Player ]\t");
+                System.out.println(myDeck.retCham(deckNum).getName() + "\t[ Down ]☠️☠️☠️");
+            }
             return DOWN;
         }
         return NOT_DOWN;

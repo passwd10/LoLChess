@@ -74,7 +74,7 @@ public class Garen extends Champion {
 
             setMp(0);
 
-            statusOutput.skillOutput("심  판");
+            statusOutput.skillOutput("심\t판");
 
             return targetNum;
         }

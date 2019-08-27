@@ -64,7 +64,7 @@ public class Bbobbi extends Champion {
 
             if (getGrade() == 1) { //1성일때
                 deal = 300;
-                targetNum = varietySkillActive.attackOne(target, deal);
+                targetNum = varietySkillActive.attackOne(target, deal,2000);
                 setMp(0);
                 statusOutput.skillOutput("수호자의심판");
             }

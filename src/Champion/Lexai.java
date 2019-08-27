@@ -70,11 +70,11 @@ public class Lexai extends Champion {
                 deal = 500;
             }
 
-            targetNum = varietySkillActive.attackOne(target,deal);
+            targetNum = varietySkillActive.attackOne(target,deal,1750);
 
             setMp(0);
 
-            statusOutput.skillOutput("매  복");
+            statusOutput.skillOutput("매\t복");
             return targetNum;
         }
         return 0;

@@ -3,6 +3,7 @@ package GameProgress;
 import Common.BotAttackThread;
 import Common.PlayerAttackThread;
 import Common.SkillActive;
+import Common.TimeThread;
 import Computer.ComDeck;
 import MyInfo.*;
 import Champion.*;
@@ -163,36 +164,34 @@ public class Round {
 
         System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
                 " " + roundNum + " 라운드를 시작합니다" +
-                " ━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+                " ━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
 
         this.gameOver = 1;
         this.mRest = 0; //처치당한 내 챔피언
         this.bRest = 0; // 처치한 봇 챔피언
 
-        long start = System.currentTimeMillis(); //시작시간
-
         isSynergy(myDeck); //시너지 확인
 
-
-        /*long end = System.currentTimeMillis(); //종료 시간
-        if ((end - start) / 1000 >= 30) {
-            System.out.println("시간 초과");
-            System.out.println(" 무승부 ");
-
+        /*if(roundTimeThread(3) == DRAW) {
+            return DRAW;
         }*/
+/*
+        TimeThread timeThread = new TimeThread(3);
+        Thread timer = new Thread(timeThread);
+        timer.start();*/
 
         attackThread(myDeck, comDeck, statusOutput, bRest, mRest); //공격 쓰레드
 
         int myCnt = 0;
         int botCnt = 0;
-        for(int i=0; i<comDeck.deckSize(); i++) {
-            if(comDeck.retCham(i).getHp() == 0) {
+        for (int i = 0; i < comDeck.deckSize(); i++) {
+            if (comDeck.retCham(i).getHp() == 0) {
                 botCnt++;
             }
         }
 
-        for(int j=0; j<myDeck.deckSize(); j++) {
-            if(myDeck.retCham(j).getHp() == 0) {
+        for (int j = 0; j < myDeck.deckSize(); j++) {
+            if (myDeck.retCham(j).getHp() == 0) {
                 myCnt++;
             }
         }
@@ -202,18 +201,45 @@ public class Round {
             comDeck.retCham(a).setMp(comDeck.retCham(a).getMAX_MP());
         }
 
-        if(botCnt == comDeck.deckSize()) {
+        if (botCnt == comDeck.deckSize()) {
             comDeck.clearDeck(); //컴퓨터 덱 초기화
             return VICTORY; //승리
         }
 
-        if(myCnt == myDeck.deckSize()) {
+        if (myCnt == myDeck.deckSize()) {
             comDeck.clearDeck(); //컴퓨터 덱 초기화
             return DEFEAT; //패배
         }
 
         comDeck.clearDeck(); //컴퓨터 덱 초기화
-        return 2; //무승부
+        return DRAW; //무승부
+    }
+
+    private int roundTimeThread(int time) {
+        /*TimeThread timeThread = new TimeThread(3); //라운드 시간 쓰레드
+        Thread roundTime = new Thread(timeThread);
+        roundTime.start();*/
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        Thread.sleep(time * 1000); //30초
+                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t 시간초과");
+                        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
+                                " 라운드 종료 " +
+                                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                        Thread.interrupted();
+                        break;
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+        }).start();
+
+        return DRAW;
     }
 
     private void attackThread(Deck myDeck, ComDeck comDeck, StatusOutput statusOutput, int bRest, int mRest) {

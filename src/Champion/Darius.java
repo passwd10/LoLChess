@@ -80,7 +80,7 @@ public class Darius extends Champion {
             setHp(getHp() + heal);
             setMp(0);
 
-            statusOutput.skillOutput("학  살");
+            statusOutput.skillOutput("학\t살");
 
             return targetNum;
         }

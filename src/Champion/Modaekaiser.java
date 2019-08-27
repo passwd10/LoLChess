@@ -76,7 +76,7 @@ public class Modaekaiser extends Champion {
 
             setMp(0);
 
-            statusOutput.skillOutput("말  살");
+            statusOutput.skillOutput("말\t살");
             return targetNum;
         }
         return 0;

@@ -69,9 +69,7 @@ public abstract class Champion extends AllUnit implements ClassSynergy, SkillAct
 
     public double setArmor(double armor) { return this.armor = armor; }
 
-    public int getMAX_MP() {
-        return this.MAX_MP;
-    }
+    public int getMAX_MP() { return this.MAX_MP; }
 
     public double getMAX_HP() {
         return this.MAX_HP;
@@ -91,4 +89,5 @@ public abstract class Champion extends AllUnit implements ClassSynergy, SkillAct
 
     public int getTier() { return this.tier; }
 
+    public double setAttackSpeed(double attackSpeed) {return this.attackSpeed = attackSpeed;}
 }

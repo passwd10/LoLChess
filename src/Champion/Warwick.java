@@ -74,7 +74,7 @@ public class Warwick extends Champion {
                 heal = 150;
             }
 
-            targetNum = varietySkillActive.attackOne(target, deal);
+            targetNum = varietySkillActive.attackOne(target, deal,5000);
 
             setHp(getHp() + heal);
             setMp(0); //내 mp 0

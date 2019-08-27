@@ -1,10 +1,10 @@
 import Champion.*;
+import Common.TimeThread;
 import Computer.*;
 import GameProgress.*;
 import MyInfo.*;
 import Output.*;
 
-import javax.swing.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -138,7 +138,10 @@ public class main {
                 round.chamReset(myDeck); //내 챔피언 초기화
 
                 comDeck.chooseDeck(gameRound); //컴퓨터 덱 설정
-                roundResult = round.startStage(gameRound, myDeck, comDeck); //내덱,내돈, 3라운드, 챔피언3개
+
+                //roundTimeThread(3);
+
+                roundResult = round.startStage(gameRound, myDeck, comDeck); //내덱, 내돈, 3라운드, 챔피언3개
                 gameResult.gameResult(roundResult, myGold, life, myLevel); //라운드 결과 출력
                 if (gameRound == 10) {
                     gameResultOutput.outputTotalResult(myLevel, myGold, life); //최종 결과 출력
@@ -171,5 +174,23 @@ public class main {
         deckOutput.outputDeck(myDeck); //덱 출력
     }
 
+    private static void roundTimeThread(int time) {
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    try {
+                        Thread.sleep(time * 1000); //30초
+                        System.out.println("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t 시간초과");
+                        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" +
+                                " 라운드 종료 " +
+                                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                        Thread.interrupted();
+                    } catch (Exception e) {
+
+                    }
+            }
+        }).start();
+
+    }
 }

@@ -77,7 +77,7 @@ public class Chogas extends Champion {
             targetNum = varietySkillActive.attackAll(target, deal);
 
             setMp(0);
-            statusOutput.skillOutput("파  멸");
+            statusOutput.skillOutput("파\t멸");
             return targetNum; //allCham
         }
         return 0;

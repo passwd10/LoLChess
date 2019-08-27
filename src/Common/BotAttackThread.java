@@ -1,5 +1,6 @@
 package Common;
 
+import Champion.Champion;
 import Computer.ComDeck;
 import MyInfo.Deck;
 import Output.*;
@@ -38,15 +39,15 @@ public class BotAttackThread implements Runnable {
             try {
                 synchronized (java.lang.Object.class) {
                     if(comDeck.retCham(comDeckNum).getMp() == comDeck.retCham(comDeckNum).getMAX_MP()) {
-                        if(comDeck instanceof SkillActive) {
+                        if(comDeck.retCham(comDeckNum) instanceof SkillActive) {
                             skill(statusOutput, myDeck, comDeck, comDeckNum, this.mRest); //스킬
                         }
-                        if(!(comDeck instanceof SkillActive)) {
-                            hitMyDeck(statusOutput, comDeck, myDeck, comDeck, this.mRest); //평타
+                        if(!(comDeck.retCham(comDeckNum) instanceof SkillActive)) {
+                            hitMyDeck(statusOutput, comDeck, myDeck, this.mRest); //평타
                         }
                     }
                     if(comDeck.retCham(comDeckNum).getMp() < comDeck.retCham(comDeckNum).getMAX_MP()) {
-                        hitMyDeck(statusOutput, comDeck, myDeck, comDeck, this.mRest);
+                        hitMyDeck(statusOutput, comDeck, myDeck, this.mRest);
                     }
                 }
                 Thread.sleep(attackTime);
@@ -72,16 +73,19 @@ public class BotAttackThread implements Runnable {
         int targetNum = 0;
         System.out.print("[   Bot  ]");
         statusOutput.attackerStatus(comDeck.retCham(comDeckNum)); //내 상태
-        System.out.print("\t──\uD83D\uDCA5");
         targetNum = ((SkillActive)comDeck.retCham(comDeckNum)).useSkill(myDeck.allUnits());
-        System.out.print("\uD83D\uDCA5─→\t");
-        for(int i=0; i<targetNum; i++) {
-            statusOutput.beAttackerStatus(myDeck.retCham(mRest)); //컴퓨터 상태
+        if(targetNum == 1) {
+            statusOutput.beAttackerStatus(myDeck.retCham(mRest));
+        }
+        if(targetNum > 1) {
+            for (int i = 0; i < targetNum; i++) {
+                statusOutput.beAttackedSkillStatus(myDeck.retCham(mRest)); //컴퓨터 상태
+            }
         }
         System.out.println();
     }
 
-    private synchronized void hitMyDeck(StatusOutput statusOutput, ComDeck comDeck, Deck myDeck, ComDeck comDeck1, int mRest) {
+    private synchronized void hitMyDeck(StatusOutput statusOutput, ComDeck comDeck, Deck myDeck, int mRest) {
         System.out.print("[   Bot  ]");
         statusOutput.attackerStatus(comDeck.retCham(comDeckNum)); //내 상태
         System.out.print("\t──\uD83D\uDC4AATTACK\uD83D\uDC4A─→\t");

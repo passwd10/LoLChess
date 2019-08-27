@@ -2,7 +2,7 @@ package Common;
 
 public class VarietySkillActive {
 
-    public int attackOne(AllUnit[] target, int deal) {
+    public int attackOne(AllUnit[] target, int deal, int stunTime) {
         //스킬로 한명을 공격
         int targetNum = 0;
 
@@ -10,6 +10,21 @@ public class VarietySkillActive {
             targetNum++;
         }
 
+        int finalTargetNum = targetNum;
+        double firstAttackSpeed = target[targetNum].getAttackSpeed(); //변경 전 스피드
+
+        new Thread(new Runnable() {
+            @Override
+            public synchronized void run() {
+                try{
+                    target[finalTargetNum].setAttackSpeed(10000); //공속느리게함
+                    Thread.sleep(stunTime);
+                    target[finalTargetNum].setAttackSpeed(firstAttackSpeed); //다시 변경
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         target[targetNum].setHp(target[targetNum].getHp() - deal);
         target[targetNum].setMp(target[targetNum].getMp() + 20);
 
