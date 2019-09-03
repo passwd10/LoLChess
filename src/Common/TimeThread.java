@@ -16,6 +16,7 @@ public class TimeThread implements Runnable {
                         " 라운드 종료 " +
                         "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 Thread.interrupted();
+
             } catch (Exception e) {
 
             }

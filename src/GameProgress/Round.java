@@ -196,10 +196,7 @@ public class Round {
             }
         }
 
-        for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 Hp,Mp 초기화
-            comDeck.retCham(a).setHp(comDeck.retCham(a).getMAX_HP());
-            comDeck.retCham(a).setMp(comDeck.retCham(a).getMAX_MP());
-        }
+        comDeckHpMpZero(comDeck);
 
         if (botCnt == comDeck.deckSize()) {
             comDeck.clearDeck(); //컴퓨터 덱 초기화
@@ -213,6 +210,13 @@ public class Round {
 
         comDeck.clearDeck(); //컴퓨터 덱 초기화
         return DRAW; //무승부
+    }
+
+    private void comDeckHpMpZero(ComDeck comDeck) {
+        for (int a = 0; a < comDeck.deckSize(); a++) { //컴터 Hp,Mp 초기화
+            comDeck.retCham(a).setHp(comDeck.retCham(a).getMAX_HP());
+            comDeck.retCham(a).setMp(comDeck.retCham(a).getMAX_MP());
+        }
     }
 
     private int roundTimeThread(int time) {
@@ -269,6 +273,7 @@ public class Round {
             for (int j = 0; j < comDeck.deckSize(); j++) {
                 bot[j].join();
             }
+
         } catch (InterruptedException e) {
         }
     }

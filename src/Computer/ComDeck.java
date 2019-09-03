@@ -109,9 +109,9 @@ public class ComDeck {
     public void chooseDeck(int roundNum) {
         if(roundNum == 1) { //1라운드 근거리1,2
             //comDeck.add(champions[2]);
-            comDeck.add(champions[5]);
-            /*comDeck.add((AllUnit)monsters[0]);
-            comDeck.add((AllUnit)monsters[1]);*/
+            //comDeck.add(champions[5]);
+            comDeck.add((AllUnit)monsters[0]);
+            comDeck.add((AllUnit)monsters[1]);
         }
         if(roundNum == 2) { //2라운드 근거리 1,2 원거리1
             comDeck.add(monsters[0]);
